@@ -12,5 +12,5 @@ public interface RoomService {
 
     List<Room> findAll();
 
-    void deleteRoomById(Integer id);
+    void deleteRoom(Integer id);
 }

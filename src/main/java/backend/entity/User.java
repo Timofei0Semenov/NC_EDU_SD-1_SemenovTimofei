@@ -25,6 +25,10 @@ public class User {
     private String firstName;
 
     @Basic
+    @Column(name = "login")
+    private String login;
+
+    @Basic
     @Column(name = "lastName")
     private String lastName;
 

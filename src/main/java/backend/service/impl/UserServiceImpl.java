@@ -16,10 +16,14 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
+    public User findByLogin(String login) {
+        return userRepository.findByLogin(login);
+    }
+
+    @Override
     public Optional<User> findUserById(Integer id) {
         return userRepository.findById(id);
     }
-
 
     @Override
     public List<User> findAll() {
@@ -27,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserById(Integer id) {
+    public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
 

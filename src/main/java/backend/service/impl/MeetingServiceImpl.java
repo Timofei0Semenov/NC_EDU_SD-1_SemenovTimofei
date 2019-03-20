@@ -31,7 +31,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void deleteMeetingById(Integer id) {
+    public void deleteMeeting(Integer id) {
         meetingRepository.deleteById(id);
     }
 }

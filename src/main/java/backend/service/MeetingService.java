@@ -12,5 +12,5 @@ public interface MeetingService {
 
     List<Meeting> findAll();
 
-    void deleteMeetingById(Integer id);
+    void deleteMeeting(Integer id);
 }
