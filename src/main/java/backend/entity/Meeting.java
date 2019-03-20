@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Date;
 
 @Setter
@@ -33,11 +34,14 @@ public class Meeting {
     @Column(name = "endMeeting")
     private Date endMeeting;
 
-    @Basic
-    @Column(name = "owner")
-    private int owner;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner")
+    private User owner;
 
-    @Basic
-    @Column(name = "room")
-    private int room;
+    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @JoinColumn(name = "room")
+    private Room room;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meetings")
+    private Collection<User> members;
 }
