@@ -3,6 +3,7 @@ package backend.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
@@ -35,11 +36,11 @@ public class User {
     private String role;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
-    private Collection<Meeting> meetingsCreatedMe;
+    private Collection<Meeting> meetingsCreatedMe = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users-meetings", schema = "backend",
             joinColumns = @JoinColumn(name = "idUser", referencedColumnName = "idUser"),
             inverseJoinColumns = @JoinColumn(name = "idMeeting", referencedColumnName = "idMeeting"))
-    private Collection<Meeting> meetings;
+    private Collection<Meeting> meetings = new ArrayList<>();
 }

@@ -22,8 +22,8 @@ public class UserController {
 
     @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
     public ResponseEntity<User> getUserByLogin(@PathVariable(name = "login") String login) {
-        User user = userService.findByLogin(login);
-        return ResponseEntity.ok(user);
+        Optional<User> user = userService.findByLogin(login);
+        return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
     }
 
     @RequestMapping(method = RequestMethod.POST)

@@ -3,6 +3,7 @@ package backend.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Data
@@ -43,5 +44,5 @@ public class Room {
     private int room;
 
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
-    private Collection<Meeting> meetings;
+    private Collection<Meeting> meetings = new ArrayList<>();
 }

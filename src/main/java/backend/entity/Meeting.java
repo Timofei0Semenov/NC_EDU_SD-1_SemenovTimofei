@@ -3,6 +3,7 @@ package backend.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -36,5 +37,5 @@ public class Meeting {
     private Room room;
 
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meetings")
-    private Collection<User> members;
+    private Collection<User> members = new ArrayList<>();
 }

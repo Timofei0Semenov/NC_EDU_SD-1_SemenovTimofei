@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserService {
-    User findByLogin(String login);
+    Optional<User> findByLogin(String login);
 
     User saveUser(User user);
 
