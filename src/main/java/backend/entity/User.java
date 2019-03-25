@@ -1,18 +1,11 @@
 package backend.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.Collection;
 
-@Setter
-@Getter
-@EqualsAndHashCode
-@NoArgsConstructor
-@Entity
+@Data
 @Table(name = "users", schema = "backend")
 public class User {
 
