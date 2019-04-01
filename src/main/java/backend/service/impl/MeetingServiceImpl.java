@@ -21,7 +21,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public Optional<Meeting> findMeetingById(Integer id) {
+    public Optional<Meeting> findMeetingById(Long id) {
         return meetingRepository.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void deleteMeeting(Integer id) {
+    public void deleteMeeting(Long id) {
         meetingRepository.deleteById(id);
     }
 }

@@ -1,41 +1,47 @@
 package backend.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Data
+@Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @Table(name = "meetings", schema = "backend")
 public class Meeting {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "idMeeting")
-    private int idMeeting;
+    @Column(name = "id")
+    private long id;
 
     @Basic
     @Column(name = "name")
     private String name;
 
     @Basic
-    @Column(name = "beginMeeting")
-    private Date beginMeeting;
+    @Column(name = "begin")
+    private Date begin;
 
     @Basic
-    @Column(name = "endMeeting")
-    private Date endMeeting;
+    @Column(name = "end")
+    private Date end;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @Basic
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner")
     private User owner;
 
-    @ManyToOne(optional = true, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room")
     private Room room;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meetings")
-    private Collection<User> members = new ArrayList<>();
+    @ManyToMany(mappedBy = "meetings")
+    private List<User> members = new ArrayList<>();
 }

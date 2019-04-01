@@ -26,7 +26,7 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteRoom(@PathVariable(name = "id") Integer id) {
+    public void deleteRoom(@PathVariable(name = "id") Long id) {
         roomService.deleteRoom(id);
     }
 
@@ -36,7 +36,7 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Room> getRoomById(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<Room> getRoomById(@PathVariable(name = "id") Long id) {
         Optional<Room> room = roomService.findRoomById(id);
         return room.isPresent() ? ResponseEntity.ok(room.get()) : ResponseEntity.notFound().build();
     }

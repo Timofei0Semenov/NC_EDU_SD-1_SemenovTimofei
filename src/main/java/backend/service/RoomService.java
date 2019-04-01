@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface RoomService {
     Room saveRoom(Room room);
 
-    Optional<Room> findRoomById(Integer id);
+    Optional<Room> findRoomById(Long id);
 
     List<Room> findAll();
 
-    void deleteRoom(Integer id);
+    void deleteRoom(Long id);
 }

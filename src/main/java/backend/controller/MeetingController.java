@@ -26,7 +26,7 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/{id}")
-    public void deleteMeeting(@PathVariable(name = "id") Integer id){
+    public void deleteMeeting(@PathVariable(name = "id") Long id){
         meetingService.deleteMeeting(id);
     }
 
@@ -36,7 +36,7 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Meeting> getMeetingById(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<Meeting> getMeetingById(@PathVariable(name = "id") Long id) {
         Optional<Meeting> meeting = meetingService.findMeetingById(id);
         return meeting.isPresent() ? ResponseEntity.ok(meeting.get()) : ResponseEntity.notFound().build();
     }

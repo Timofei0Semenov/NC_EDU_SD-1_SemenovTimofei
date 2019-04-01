@@ -32,7 +32,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable(name = "id") Integer id) {
+    public void deleteUser(@PathVariable(name = "id") Long id) {
         userService.deleteUser(id);
     }
 
@@ -42,7 +42,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUserById(@PathVariable(name = "id") Integer id) {
+    public ResponseEntity<User> getUserById(@PathVariable(name = "id") Long id) {
         Optional<User> user = userService.findUserById(id);
         return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
     }

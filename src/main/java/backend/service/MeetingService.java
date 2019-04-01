@@ -8,9 +8,9 @@ import java.util.Optional;
 public interface MeetingService {
     Meeting saveMeeting(Meeting meeting);
 
-    Optional<Meeting> findMeetingById(Integer id);
+    Optional<Meeting> findMeetingById(Long id);
 
     List<Meeting> findAll();
 
-    void deleteMeeting(Integer id);
+    void deleteMeeting(Long id);
 }

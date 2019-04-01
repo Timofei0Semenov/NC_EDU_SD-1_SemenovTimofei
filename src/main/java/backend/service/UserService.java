@@ -10,9 +10,9 @@ public interface UserService {
 
     User saveUser(User user);
 
-    Optional<User> findUserById(Integer id);
+    Optional<User> findUserById(Long id);
 
     List<User> findAll();
 
-    void deleteUser(Integer id);
+    void deleteUser(Long id);
 }

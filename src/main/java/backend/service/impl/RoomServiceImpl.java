@@ -21,7 +21,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public Optional<Room> findRoomById(Integer id) {
+    public Optional<Room> findRoomById(Long id) {
         return roomRepository.findById(id);
     }
 
@@ -31,7 +31,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void deleteRoom(Integer id) {
+    public void deleteRoom(Long id) {
         roomRepository.deleteById(id);
     }
 }
