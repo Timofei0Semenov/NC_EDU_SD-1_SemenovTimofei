@@ -21,17 +21,17 @@ public class MeetingController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public List<Meeting> getAll(){
+    public List<Meeting> getAll() {
         return meetingService.findAll();
     }
 
     @RequestMapping(value = "/{id}")
-    public void deleteMeeting(@PathVariable(name = "id") Long id){
+    public void deleteMeeting(@PathVariable(name = "id") Long id) {
         meetingService.deleteMeeting(id);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Meeting saveMeeting(@RequestBody Meeting meeting){
+    public Meeting saveMeeting(@RequestBody Meeting meeting) {
         return meetingService.saveMeeting(meeting);
     }
 

@@ -1,6 +1,7 @@
 package backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
@@ -34,6 +35,7 @@ public class User {
 
 
     @Basic
+    @JsonIgnore
     @Column(name = "password")
     private String password;
 
@@ -41,12 +43,14 @@ public class User {
     @Column(name = "role")
     private String role;
 
-    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
-    private List<Meeting> meetingsCreatedMe = new ArrayList<>();
-
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "users-meetings", schema = "backend",
+    @JoinTable(name = "users_meetings", schema = "backend",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_meeting"))
     private List<Meeting> meetings = new ArrayList<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
+    private List<Meeting> meetingsCreatedMe = new ArrayList<>();
 }

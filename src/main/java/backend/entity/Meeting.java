@@ -1,6 +1,8 @@
 package backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
@@ -22,26 +24,31 @@ public class Meeting {
     private long id;
 
     @Basic
-    @Column(name = "name")
-    private String name;
+    @Column(name = "title")
+    private String title;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Basic
-    @Column(name = "begin")
-    private Date begin;
+    @Column(name = "start")
+    private Date start;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     @Basic
     @Column(name = "end")
     private Date end;
 
+    @JsonIgnore
     @Basic
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner")
     private User owner;
 
+    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room")
     private Room room;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "meetings")
     private List<User> members = new ArrayList<>();
 }
