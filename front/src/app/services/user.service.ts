@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {UserComponent} from '../modules/user/user.component';
 import {HttpClient} from '@angular/common/http';
+import {User} from '../modules/user/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +12,27 @@ export class UserService {
   }
 
 
-  getAllUsers(): Observable<UserComponent[]> {
-    return this.http.get<UserComponent[]>('/api/user/all');
+  getAllUsers(): Observable<User[]> {
+    /*this.userService.getAllUsers().subscribe(data => {
+      this.users = data.map(item => {
+        return new User(item.id, item.firstName, item.lastName, item.login, item.role);
+      });
+    });*/
+    return this.http.get<User[]>('/api/users/all');
   }
 
   deleteUser(userId: string): Observable<void> {
-    return this.http.delete<void>('/api/user/' + userId);
+    return this.http.delete<void>('/api/users/' + userId);
   }
 
-  saveUser(user: UserComponent): Observable<UserComponent> {
-    return this.http.post<UserComponent>('/api/user', user);
+  saveUser(user: User): Observable<User> {
+    return this.http.post<User>('/api/users', user);
   }
 
-  getUserById(id: string): Observable<UserComponent> {
-    return this.http.get<UserComponent>('/api/user/id/' + id);
+  getUserById(id: number): Observable<User> {
+    /*this.userService.getUserById(1).subscribe((data: User) =>
+      this.user = new User(data.id, data.firstName, data.lastName, data.login, data.role, data.meetings, data.meetingsCreatedMe));*/
+    return this.http.get<User>('/api/users/id/' + id);
   }
 
 }

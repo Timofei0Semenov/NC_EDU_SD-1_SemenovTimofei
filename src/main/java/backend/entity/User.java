@@ -33,7 +33,6 @@ public class User {
     @Column(name = "login")
     private String login;
 
-
     @Basic
     @JsonIgnore
     @Column(name = "password")
@@ -43,14 +42,16 @@ public class User {
     @Column(name = "role")
     private String role;
 
-    @JsonIgnore
+    @Basic
+    @Column(name = "email")
+    private String email;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "users_meetings", schema = "backend",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_meeting"))
     private List<Meeting> meetings = new ArrayList<>();
 
-    @JsonIgnore
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Meeting> meetingsCreatedMe = new ArrayList<>();
 }

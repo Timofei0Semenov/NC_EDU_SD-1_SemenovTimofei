@@ -1,30 +1,29 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import { AppComponent } from './app.component';
 import {HttpClientModule} from '@angular/common/http';
-import { RoomComponent } from './modules/room/room.component';
-import { UserComponent } from './modules/user/user.component';
+import {CustomMaterialModule} from './material.module';
+import {FormsModule} from '@angular/forms';
+import {AppRoutingModule} from './app-routing.module';
+import {LayoutModule} from './modules/layout/layout.module';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AuthorizationModule} from './modules/authorization/authorization.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    RoomComponent,
-    UserComponent,
+    AppComponent
   ],
   imports: [
     CommonModule,
     BrowserModule,
-    BrowserAnimationsModule,
+    CustomMaterialModule,
     HttpClientModule,
-    CalendarModule.forRoot({
-      provide: DateAdapter,
-      useFactory: adapterFactory
-    })
+    FormsModule,
+    LayoutModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    AuthorizationModule
   ],
   bootstrap: [AppComponent]
 })

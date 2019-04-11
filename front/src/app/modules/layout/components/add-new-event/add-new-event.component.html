@@ -1,0 +1,81 @@
+<div style="text-align: right">
+  <button mat-fab (click)="isAddNew = !isAddNew"> +</button>
+</div>
+
+<div *ngIf="isAddNew">
+  <h3>
+    Creat new meeting
+  </h3>
+
+  <div class="table-responsive">
+    <table class="table table-bordered">
+      <thead>
+      <tr>
+        <th>Title</th>
+        <th>Members</th>
+        <th>Place</th>
+        <th>Starts at</th>
+        <th>Ends at</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <td>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="title"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          class="form-control"
+        />
+      </td>
+      <td>
+        <input
+          type="text"
+          class="form-control"
+        />
+      </td>
+      <td>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="start"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          [time24hr]="true"
+          [minDate]="today"
+          placeholder="Choose date"
+        />
+      </td>
+      <td>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="end"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          [time24hr]="true"
+          placeholder="Choose date"
+        />
+      </td>
+      </tbody>
+    </table>
+    <div style="text-align: right">
+      <button mat-flat-button color="primary" (click)="creatMeeting">
+        Create
+      </button>
+    </div>
+  </div>
+</div>

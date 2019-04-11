@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {RoomComponent} from '../modules/room/room.component';
 import {HttpClient} from '@angular/common/http';
+import {Room} from '../modules/room/models/room';
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +12,20 @@ export class RoomService {
   }
 
 
-  getAllRooms(): Observable<RoomComponent[]> {
-    return this.http.get<RoomComponent[]>('/api/room/all');
+  getAllRooms(): Observable<Room[]> {
+    return this.http.get<Room[]>('/api/rooms/all');
   }
 
   deleteRoom(roomId: number): Observable<void> {
-    return this.http.delete<void>('/api/room/' + roomId);
+    return this.http.delete<void>('/api/rooms/' + roomId);
   }
 
-  saveRoom(room: RoomComponent): Observable<RoomComponent> {
-    return this.http.post<RoomComponent>('/api/room', room);
+  saveRoom(room: Room): Observable<Room> {
+    return this.http.post<Room>('/api/rooms', room);
   }
 
-  getRoomById(id: number): Observable<RoomComponent> {
-    return this.http.get<RoomComponent>('api/room/id/' + id);
+  getRoomById(id: number): Observable<Room> {
+    return this.http.get<Room>('api/rooms/id/' + id);
   }
 
 }

@@ -37,18 +37,15 @@ public class Meeting {
     @Column(name = "end")
     private Date end;
 
-    @JsonIgnore
     @Basic
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "owner")
     private User owner;
 
-    @JsonIgnore
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "room")
     private Room room;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "meetings")
     private List<User> members = new ArrayList<>();
 }
