@@ -2,6 +2,7 @@ package fapi.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +20,7 @@ import java.util.Arrays;
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
-       @Value("${security.oauth2.client.client-id}")
+    @Value("${security.oauth2.client.client-id}")
     private String clientId;
 
     @Value("${security.oauth2.client.client-secret}")
@@ -41,8 +42,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtAccessTokenConverter accessTokenConverter;
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        return new JwtAccessTokenConverter();
+    }
 
     @Autowired
     private TokenStore tokenStore;
@@ -60,6 +63,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .secret(passwordEncoder.encode(clientSecret))
                 .authorizedGrantTypes(grantType)
                 .scopes(scopes)
+                .resourceIds(resourceId)
                 .accessTokenValiditySeconds(accessToken)
                 .refreshTokenValiditySeconds(refreshToken);
     }
@@ -67,12 +71,11 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-        enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter));
+        enhancerChain.setTokenEnhancers(Arrays.asList(accessTokenConverter()));
         endpoints
                 .tokenStore(tokenStore)
-                .accessTokenConverter(accessTokenConverter)
+                .accessTokenConverter(accessTokenConverter())
                 .tokenEnhancer(enhancerChain)
-                .authenticationManager(authenticationManager);
+                .authenticationManager(this.authenticationManager);
     }
-
 }
