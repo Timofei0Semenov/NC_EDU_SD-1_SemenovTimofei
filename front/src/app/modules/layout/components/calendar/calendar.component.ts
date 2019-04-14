@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CalendarDateFormatter, CalendarView, DateAdapter} from 'angular-calendar';
+import {CalendarDateFormatter, CalendarView} from 'angular-calendar';
 import {isSameDay, isSameMonth} from 'date-fns';
 import 'rxjs/add/operator/map';
 import {User} from '../../../user/models/user';
@@ -37,8 +37,9 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.userService.getUserById(1).subscribe((data: User) =>
-      this.user = new User(data.id, data.firstName, data.lastName, data.login, data.role, data.email, data.meetings, data.meetingsCreatedMe));
+    /*this.userService.getUserById(1).subscribe((data: User) =>
+      this.user = new User(data.id, data.firstName, data.lastName, data.login, data.role,
+        data.email, data.password, data.meetings, data.meetingsCreatedMe));*/
   }
 
   closeOpenMonthViewDay() {

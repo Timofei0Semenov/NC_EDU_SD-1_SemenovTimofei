@@ -9,6 +9,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {LayoutModule} from './modules/layout/layout.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthorizationModule} from './modules/authorization/authorization.module';
+import {AuthService} from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {AuthorizationModule} from './modules/authorization/authorization.module'
     BrowserAnimationsModule,
     AuthorizationModule
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  providers: [AuthService]
 })
 export class AppModule { }

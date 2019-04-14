@@ -1,24 +1,24 @@
 import {Meeting} from '../../meeting/models/meeting';
+import {token} from 'flatpickr/dist/utils/formatting';
 
 export class User {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   login: string;
   role: string;
   email: string;
-  meetings: Meeting[];
-  meetingsCreatedMe: Meeting[];
+  password: string;
+  meetings?: Meeting[];
+  meetingsCreatedMe?: Meeting[];
 
-  constructor(id: string, firstName: string, lastName: string, login: string, role: string, email: string,
-              meetings: Meeting[], meetingsCreatedMe: Meeting[]) {
-    this.id = id;
+  constructor(firstName: string, lastName: string, login: string, role: string, email: string,
+              password: string) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.login = login;
     this.role = role;
     this.email = email;
-    this.meetings = meetings;
-    this.meetingsCreatedMe = meetingsCreatedMe;
+    this.password = password;
   }
 }
