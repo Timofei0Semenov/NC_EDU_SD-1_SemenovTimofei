@@ -2,25 +2,31 @@ import {NgModule} from '@angular/core';
 import {HomeComponent} from './components/home/home.component';
 import {RouterModule} from '@angular/router';
 import {CalendarComponent} from './components/calendar/calendar.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {CalendarModule, DateAdapter} from 'angular-calendar';
+import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {AddNewEventComponent} from './components/add-new-event/add-new-event.component';
 import {MatButtonModule} from '@angular/material';
 import {FormsModule} from '@angular/forms';
-import { FlatpickrModule } from 'angularx-flatpickr';
+import {FlatpickrModule} from 'angularx-flatpickr';
+import { HeaderComponent } from './components/header/header.component';
+import {BrowserModule} from '@angular/platform-browser';
+import {CustomMaterialModule} from '../../material.module';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CalendarComponent,
-    AddNewEventComponent
+    AddNewEventComponent,
+    HeaderComponent
   ],
   imports: [
     RouterModule,
     FormsModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    BrowserModule,
+    CustomMaterialModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

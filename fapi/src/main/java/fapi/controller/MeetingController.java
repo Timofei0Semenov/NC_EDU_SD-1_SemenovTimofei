@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import fapi.service.MeetingService;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/fapi/meetings")
@@ -37,5 +39,20 @@ public class MeetingController {
     @DeleteMapping(value = "/{id}")
     public void deleteMeeting(@PathVariable Long id) {
         meetingService.deleteMeeting(id);
+    }
+
+    @GetMapping(value = "/byMember/{login}")
+    public ResponseEntity<List<Meeting>> getAllByMember(@PathVariable(name = "login") String login) {
+        return ResponseEntity.ok(meetingService.findAllByMember(login));
+    }
+
+    @GetMapping(value = "/byOwner/{login}")
+    public ResponseEntity<List<Meeting>> getAllByOwner(@PathVariable(name = "login") String login) {
+        return ResponseEntity.ok(meetingService.findAllByOwner(login));
+    }
+
+    @PostMapping(value = "/addMember/{login}")
+    public void addMember(@RequestBody Meeting input, @PathVariable String login) {
+        meetingService.addMember(input, login);
     }
 }

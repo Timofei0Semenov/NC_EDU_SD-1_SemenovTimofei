@@ -96,13 +96,13 @@ export class RegisterComponent implements OnInit {
   register() {
     console.log('click');
     /*this.userService.getUserById(1).subscribe(data => console.log(data));*/
-    this.userService.getUserById(1).subscribe(data => console.log(data));
+    /*this.userService.getUserById(1).subscribe(data => console.log(data));
     this.userService.saveUser(new User(this.userRegistrationGroup.get('firstNameFormControl').value,
       this.userRegistrationGroup.get('lastNameFormControl').value,
       this.userRegistrationGroup.get('loginFormControl').value,
       'user',
       this.userRegistrationGroup.get('emailFormControl').value,
-      this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value)).subscribe((data) => console.log(data));
+      this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value)).subscribe((data) => console.log(data));*/
   }
 }
 

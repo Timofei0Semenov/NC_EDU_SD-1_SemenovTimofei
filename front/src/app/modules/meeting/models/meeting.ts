@@ -11,7 +11,6 @@ export class Meeting implements CalendarEvent {
   owner: User;
   members: User[];
 
-
   constructor(id: string, title: string, start: Date, end: Date, room: Room, owner: User, members: User[]) {
     this.id = id;
     this.title = title;

@@ -3,6 +3,7 @@ package fapi.service.impl;
 import fapi.models.Meeting;
 import fapi.service.MeetingService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,13 +20,13 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public Meeting saveMeeting(Meeting meeting) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "meetings", meeting, Meeting.class).getBody();
+        return restTemplate.postForEntity(backendServerUrl + "meetings/", meeting, Meeting.class).getBody();
     }
 
     @Override
     public Meeting findMeetingById(Long id) {
         RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject(backendServerUrl + "id/" + id, Meeting.class);
+        return restTemplate.getForObject(backendServerUrl + "meetings/id/" + id, Meeting.class);
     }
 
     @Override
@@ -39,5 +40,25 @@ public class MeetingServiceImpl implements MeetingService {
     public void deleteMeeting(Long id) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(backendServerUrl + "meetings/" + id);
+    }
+
+    @Override
+    public List<Meeting> findAllByMember(String login) {
+        RestTemplate restTemplate = new RestTemplate();
+        Meeting[] response = restTemplate.getForObject(backendServerUrl + "meetings/byMember/" + login, Meeting[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
+
+    @Override
+    public List<Meeting> findAllByOwner(String login) {
+        RestTemplate restTemplate = new RestTemplate();
+        Meeting[] response = restTemplate.getForObject(backendServerUrl + "meetings/byOwner/" + login, Meeting[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
+
+    @Override
+    public void addMember(Meeting input, String login) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(backendServerUrl + "meetings/addMember/" + login, input, Meeting.class);
     }
 }

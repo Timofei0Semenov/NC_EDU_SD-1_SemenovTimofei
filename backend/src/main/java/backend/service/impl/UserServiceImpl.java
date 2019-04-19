@@ -1,5 +1,6 @@
 package backend.service.impl;
 
+import backend.entity.Meeting;
 import backend.entity.User;
 import backend.repository.UserRepository;
 import backend.service.UserService;
@@ -38,5 +39,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User saveUser(User user) {
         return userRepository.save(user);
+    }
+
+    @Override
+    public List<User> findAllByMeeting(Meeting meeting) {
+        return userRepository.findAllByMeetingsContains(meeting);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findByFriendsContains(User user) {
+        return userRepository.findByFriendsContains(user);
     }
 }

@@ -13,6 +13,7 @@ export class AddNewEventComponent implements OnInit {
   title: string;
   start: Date;
   end: Date;
+  icon = 'add';
 
   constructor(private router: Router) {
   }
@@ -20,8 +21,16 @@ export class AddNewEventComponent implements OnInit {
   ngOnInit() {
   }
 
-  creatMeeting(): void {
+  clickAdd() {
+    this.isAddNew = !this.isAddNew;
+    if (!this.isAddNew) {
+      this.icon = 'add';
+    } else {
+      this.icon = 'arrow_back';
+    }
+  }
 
+  creatMeeting(): void {
   }
 
 

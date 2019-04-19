@@ -1,6 +1,7 @@
 package fapi.service;
 
 import fapi.models.User;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -14,4 +15,12 @@ public interface UserService {
     List<User> findAll();
 
     void deleteUser(Long id);
+
+    List<User> findAllByMeeting(Long idMeeting);
+
+    List<User> findByFriendsContains(Long id);
+
+    void updateUser(User user);
+
+    ResponseEntity addFriend(User user, String login);
 }

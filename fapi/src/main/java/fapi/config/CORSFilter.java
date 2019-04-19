@@ -27,7 +27,8 @@ public class CORSFilter implements Filter {
         res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS");
         res.setHeader(
                 "Access-Control-Allow-Headers",
-                "Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Accept-Language, Host, Referer, Connection, User-Agent, authorization, sw-useragent, sw-version");
+                "Origin, X-Requested-With, Content-Type, Accept, Accept-Encoding, Accept-Language, Host, Referer, Connection, User-Agent, Authorization, " +
+                        "authorization, sw-useragent, sw-version");
         if (req.getMethod().equals("OPTIONS")) {
             res.setStatus(HttpServletResponse.SC_OK);
             return;

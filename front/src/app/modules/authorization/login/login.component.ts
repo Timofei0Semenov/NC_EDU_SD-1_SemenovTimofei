@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
 import {HttpParams} from '@angular/common/http';
+import {UserService} from '../../../services/user.service';
+import {User} from '../../user/models/user';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +14,10 @@ import {HttpParams} from '@angular/common/http';
 export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
+  user: User;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
-              private authService: AuthService) {
+              private authService: AuthService, private userService: UserService) {
     /*this.createForm();*/
   }
 
@@ -64,19 +67,14 @@ export class LoginComponent implements OnInit {
     this.authService.login(body.toString()).subscribe(data => {
       window.localStorage.setItem('token', JSON.stringify(data));
       console.log(window.localStorage.getItem('token'));
-      this.router.navigate(['/home']);
+      this.userService.getUserByLogin('login')
+        .subscribe((data2: User) => this.user =
+          new User(data2.id, data2.firstName, data2.lastName, data2.login, data2.role, data2.email, data2.password,
+            data2.meetings, data2.meetingsCreatedMe));
+      this.authService.changeCurrentUser(this.user);
+      console.log(this.user);
     });
-    }
 
-    /*const val = this.loginForm.value;
-
-    if (val.usernameFormControl && val.passwordFormControl) {
-      this.authService.login(val.email, val.password)
-        .subscribe(
-          () => {
-            console.log('User is logged in');
-            this.router.navigateByUrl('/');
-          }
-        );
-    }*/
+  }
 }
+

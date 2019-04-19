@@ -1,5 +1,6 @@
 package backend.service;
 
+import backend.entity.Meeting;
 import backend.entity.User;
 
 import java.util.List;
@@ -15,4 +16,10 @@ public interface UserService {
     List<User> findAll();
 
     void deleteUser(Long id);
+
+    List<User> findAllByMeeting(Meeting meeting);
+
+    Optional<User> findByEmail(String email);
+
+    List<User> findByFriendsContains(User user);
 }

@@ -1,11 +1,15 @@
 package backend.controller;
 
+import backend.entity.Meeting;
 import backend.entity.User;
+import backend.service.MeetingService;
 import backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Min;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,35 +19,84 @@ public class UserController {
 
     private UserService userService;
 
+    private MeetingService meetingService;
+
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, MeetingService meetingService) {
         this.userService = userService;
+        this.meetingService = meetingService;
     }
 
-    @RequestMapping(value = "/login/{login}", method = RequestMethod.GET)
+    @GetMapping(value = "/login/{login}")
     public ResponseEntity<User> getUserByLogin(@PathVariable(name = "login") String login) {
         Optional<User> user = userService.findByLogin(login);
         return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public User saveUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody User user) {
+        if (userService.findByLogin(user.getLogin()).isPresent() ||
+                userService.findByEmail(user.getEmail()).isPresent()) {
+            return ResponseEntity.badRequest().build();
+        } else {
+            userService.saveUser(user);
+            return ResponseEntity.ok(user);
+        }
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable(name = "id") Long id) {
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity deleteUser(@PathVariable(name = "id") @Min(value = 1) Long id) {
+        if (!userService.findUserById(id).isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
         userService.deleteUser(id);
+        return ResponseEntity.ok().build();
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping(value = "/all")
     public List<User> getAllUsers() {
         return userService.findAll();
     }
 
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-    public ResponseEntity<User> getUserById(@PathVariable(name = "id") Long id) {
+    @GetMapping(value = "/id/{id}")
+    public ResponseEntity<User> getUserById(@PathVariable(name = "id") @Min(value = 1) Long id) {
         Optional<User> user = userService.findUserById(id);
         return user.isPresent() ? ResponseEntity.ok(user.get()) : ResponseEntity.notFound().build();
+    }
+
+    @GetMapping(value = "/byMeeting/{idMeeting}")
+    public ResponseEntity<List<User>> getUsersByMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        Optional<Meeting> meeting = meetingService.findMeetingById(idMeeting);
+        return ResponseEntity.ok(userService.findAllByMeeting(meeting.get()));
+    }
+
+    @PutMapping
+    public ResponseEntity<User> updateUser(@RequestBody User user) {
+        Optional<User> updateUser = userService.findUserById(user.getIdUser());
+        if (!updateUser.isPresent()) return ResponseEntity.notFound().build();
+        userService.saveUser(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping(value = "/byFriend/{id}")
+    public ResponseEntity<List<User>> getFriends(@PathVariable(name = "id") @Min(value = 1) Long idUser) {
+        Optional<User> user = userService.findUserById(idUser);
+        if (!user.isPresent()) return ResponseEntity.notFound().build();
+        List<User> friends = new ArrayList<>();
+        friends = userService.findByFriendsContains(user.get());
+        return ResponseEntity.ok(friends);
+    }
+
+    @RequestMapping(value = "/addFriend/{login}", method = RequestMethod.POST)
+    public ResponseEntity addMember(@RequestBody User input, @PathVariable String login) {
+        Optional<User> user = userService.findUserById(input.getIdUser());
+        if (!user.isPresent()) return ResponseEntity.notFound().build();
+        Optional<User> friend = userService.findByLogin(login);
+        if (!friend.isPresent()) return ResponseEntity.notFound().build();
+        user.get().getFriends().add(friend.get());
+        friend.get().getFriends().add(user.get());
+        userService.saveUser(user.get());
+        userService.saveUser(friend.get());
+        return ResponseEntity.ok().build();
     }
 }

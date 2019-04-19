@@ -1,52 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import {BehaviorSubject, config, Observable} from 'rxjs';
-import { map } from 'rxjs/operators';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 import {User} from '../modules/user/models/user';
+import {BehaviorSubject, Observable} from 'rxjs';
 
-/*
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class AuthService {
-  private currentUserSubject: BehaviorSubject<User>;
+  private userSource: BehaviorSubject<User>;
   public currentUser: Observable<User>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
-  }
-
-  public get currentUserValue(): User {
-    return this.currentUserSubject.value;
-  }
-
-  login(username: string, password: string) {
-    return this.http.post<any>(`http://localhost:8081/api-docs/any`, { username, password })
-      .pipe(map(user => {
-        if (user && user.token) {
-          // store user details and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-        }
-
-        return user;
-      }));
-  }
-
-  logout() {
-    localStorage.removeItem('currentUser');
-    this.currentUserSubject.next(null);
-  }
-}*/
-@Injectable({ providedIn: 'root' })
-export class AuthService {
-  constructor(private http: HttpClient) {
+    this.userSource = new BehaviorSubject<User>(null);
+    this.currentUser = this.userSource.asObservable();
   }
 
   login(loginPayload) {
     const headers = {
-      'Authorization': 'Basic ' + btoa('devglan-client:devglan-secret'),
+      'Authorization': 'Basic ' + btoa('frontend-client:frontend-secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     }
-    return this.http.post('api/oauth/token', loginPayload, {headers});
+    return this.http.post('http://localhost:8081/oauth/token', loginPayload, {headers});
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.currentUser = null;
+    this.userSource.next(null);
+  }
+
+  changeCurrentUser(user: User) {
+    this.userSource.next(user);
   }
 }

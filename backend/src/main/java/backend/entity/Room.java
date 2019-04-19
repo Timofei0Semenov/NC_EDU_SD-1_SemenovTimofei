@@ -11,15 +11,15 @@ import java.util.List;
 
 @Data
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
+@JsonIdentityInfo(scope = Room.class, generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "idRoom")
 @Table(name = "rooms", schema = "backend")
 public class Room {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private long id;
+    private long idRoom;
 
     @Basic
     @Column(name = "name")
@@ -49,6 +49,7 @@ public class Room {
     @Column(name = "room")
     private int room;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
     private List<Meeting> meetings = new ArrayList<>();
 }

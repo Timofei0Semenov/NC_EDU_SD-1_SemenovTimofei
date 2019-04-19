@@ -1,11 +1,12 @@
 package fapi.controller;
 
 import fapi.models.User;
+import fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import fapi.service.UserService;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
@@ -30,7 +31,7 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         return ResponseEntity.ok(userService.saveUser(user));
     }
 
@@ -42,5 +43,25 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUserById(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping(value = "/byMeeting/{idMeeting}")
+    public ResponseEntity<List<User>> getUsersByMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        return ResponseEntity.ok(userService.findAllByMeeting(idMeeting));
+    }
+
+    @PutMapping
+    public void updateUser(@RequestBody User user) {
+        userService.updateUser(user);
+    }
+
+    @GetMapping(value = "/byFriend/{id}")
+    public ResponseEntity<List<User>> getFriends(@PathVariable(name = "id") @Min(value = 1) Long idUser) {
+        return ResponseEntity.ok(userService.findByFriendsContains(idUser));
+    }
+
+    @RequestMapping(value = "/addFriend/{login}", method = RequestMethod.POST)
+    public ResponseEntity addMember(@RequestBody User input, @PathVariable String login) {
+        return userService.addFriend(input, login);
     }
 }

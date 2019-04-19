@@ -2,9 +2,6 @@ package fapi.models;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 public class Room {
 
@@ -16,5 +13,4 @@ public class Room {
     private int building;
     private int flour;
     private int room;
-    private List<Meeting> meetings = new ArrayList<>();
 }

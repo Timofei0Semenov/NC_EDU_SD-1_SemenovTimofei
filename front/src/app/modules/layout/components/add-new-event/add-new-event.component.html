@@ -1,6 +1,8 @@
 
 <div style="text-align: right">
-  <button mat-fab (click)="isAddNew = !isAddNew"> +</button>
+  <button mat-fab (click)="clickAdd()">
+    <mat-icon>{{icon}}</mat-icon>
+  </button>
 </div>
 
 <div *ngIf="isAddNew">
@@ -68,6 +70,7 @@
           dateFormat="Y-m-dTH:i"
           altFormat="F j, Y H:i"
           [time24hr]="true"
+          [minDate]="today"
           placeholder="Choose date"
         />
       </td>

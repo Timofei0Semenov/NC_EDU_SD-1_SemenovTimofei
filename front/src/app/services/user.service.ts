@@ -7,7 +7,6 @@ import {User} from '../modules/user/models/user';
   providedIn: 'root'
 })
 export class UserService {
-
   constructor(private http: HttpClient) {
   }
 
@@ -33,6 +32,11 @@ export class UserService {
     /*this.userService.getUserById(1).subscribe((data: User) =>
       this.user = new User(data.id, data.firstName, data.lastName, data.login, data.role, data.meetings, data.meetingsCreatedMe));*/
     return this.http.get<User>('/api/users/id/' + id);
+  }
+
+  getUserByLogin(login: string): Observable<User> {
+    return this.http.get<User>('/api/users/login/' + login + '?access_token=' +
+      JSON.parse(window.sessionStorage.getItem('token')).access_token);
   }
 
 }

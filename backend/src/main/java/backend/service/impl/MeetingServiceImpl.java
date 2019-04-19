@@ -1,6 +1,7 @@
 package backend.service.impl;
 
 import backend.entity.Meeting;
+import backend.entity.User;
 import backend.repository.MeetingRepository;
 import backend.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,15 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteMeeting(Long id) {
         meetingRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Meeting> findAllByMember(User user) {
+        return meetingRepository.findAllByMembersContains(user);
+    }
+
+    @Override
+    public List<Meeting> findAllByOwner(User user) {
+        return meetingRepository.findAllByOwner(user);
     }
 }
