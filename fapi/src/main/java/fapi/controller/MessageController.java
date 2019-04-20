@@ -2,6 +2,7 @@ package fapi.controller;
 
 import fapi.models.Message;
 import fapi.service.MessageService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,10 @@ public class MessageController {
 
     private MessageService messageService;
 
+    @Autowired
+    public MessageController(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
     @GetMapping(value = "/all")
     public ResponseEntity<List<Message>> getAll() {

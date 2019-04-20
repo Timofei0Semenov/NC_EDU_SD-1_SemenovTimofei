@@ -4,16 +4,20 @@ import fapi.models.User;
 import fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/fapi/users")
 public class UserController {
 
     private UserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     @Autowired
     public UserController(UserService userService) {
@@ -32,6 +36,7 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
         return ResponseEntity.ok(userService.saveUser(user));
     }
 
@@ -60,8 +65,8 @@ public class UserController {
         return ResponseEntity.ok(userService.findByFriendsContains(idUser));
     }
 
-    @RequestMapping(value = "/addFriend/{login}", method = RequestMethod.POST)
-    public ResponseEntity addMember(@RequestBody User input, @PathVariable String login) {
+    @PostMapping(value = "/addFriend/{login}")
+    public ResponseEntity addFriend(@RequestBody User input, @PathVariable String login) {
         return userService.addFriend(input, login);
     }
 }

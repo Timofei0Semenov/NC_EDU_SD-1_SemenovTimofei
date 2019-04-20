@@ -64,7 +64,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .anonymous().disable()
+                .anonymous().and().authorizeRequests().antMatchers("/fapi/users/").permitAll()
+                .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()
                 .antMatchers("/api-docs/**").permitAll()
@@ -73,5 +74,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     }
 }

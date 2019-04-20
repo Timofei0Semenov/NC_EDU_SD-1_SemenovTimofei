@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-@JsonIdentityInfo(scope = Meeting.class, generator = ObjectIdGenerators.PropertyGenerator.class,
+@JsonIdentityInfo(scope = User.class, generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "idUser")
 public class User {
 
@@ -29,6 +29,7 @@ public class User {
     @Size(min = 4, max = 20, message = "Login must be more 4 and less 20 symbols")
     private String login;
 
+    @NotBlank(message = "Please input correct password")
     private String password;
 
     @NotBlank

@@ -7,9 +7,10 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-@JsonIdentityInfo(scope = Meeting.class, generator = ObjectIdGenerators.PropertyGenerator.class,
+@JsonIdentityInfo(scope = Message.class, generator = ObjectIdGenerators.PropertyGenerator.class,
         property = "idMessage")
 public class Message {
+
     private Long idMessage;
 
     @NotNull
@@ -18,7 +19,6 @@ public class Message {
     @NotNull
     private User receiver;
 
-    @NotNull
     private Meeting meeting;
 
     @NotNull

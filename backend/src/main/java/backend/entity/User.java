@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
@@ -48,8 +49,7 @@ public class User {
     private String login;
 
     @Basic
-    @NotNull
-    @Size(min = 7, max = 20, message = "Password must be more 7 and less 20 symbols")
+    @NotBlank(message = "Please input correct password")
     @Column(name = "password")
     private String password;
 
@@ -72,7 +72,7 @@ public class User {
     private List<Meeting> meetingsCreatedMe = new ArrayList<>();
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "friends", schema = "backend",
             joinColumns = @JoinColumn(name = "id_user"),
             inverseJoinColumns = @JoinColumn(name = "id_friend"))

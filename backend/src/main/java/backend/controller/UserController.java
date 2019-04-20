@@ -87,7 +87,7 @@ public class UserController {
         return ResponseEntity.ok(friends);
     }
 
-    @RequestMapping(value = "/addFriend/{login}", method = RequestMethod.POST)
+    @PostMapping(value = "/addFriend/{login}")
     public ResponseEntity addMember(@RequestBody User input, @PathVariable String login) {
         Optional<User> user = userService.findUserById(input.getIdUser());
         if (!user.isPresent()) return ResponseEntity.notFound().build();

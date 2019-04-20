@@ -34,7 +34,6 @@ public class Message {
 
     @Basic
     @ManyToOne
-    @NotNull
     @JoinColumn(name = "meeting")
     private Meeting meeting;
 
