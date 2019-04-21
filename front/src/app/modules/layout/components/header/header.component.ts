@@ -16,10 +16,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*this.authService.currentUser.subscribe(data => this.user = data);*/
-    /*this.userService.getUserByLogin('login').subscribe(data => this.user = new User(data.id, data.firstName,
-      data.lastName, data.login, data.email, data.password, data.role, data.meetings, data.meetingsCreatedMe));*/
-
+    if (!this.authService.isAuthorized()) {
+      this.router.navigateByUrl('/login');
+    }
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
   }
 
   goHome() {
@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
-    /*this.authService.logout();*/
+    this.authService.logout();
     this.router.navigateByUrl('/login');
   }
 

@@ -1,10 +1,6 @@
 {
   "/api/*": {
-    "target": {
-      "host": "localhost",
-      "protocol": "http:",
-      "port": 8081
-    },
+    "target": "http://localhost:8081/fapi/",
     "secure": false,
     "logLevel": "info",
     "pathRewrite": {"^/api" : ""}

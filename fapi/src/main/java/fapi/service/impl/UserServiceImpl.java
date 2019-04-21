@@ -21,9 +21,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Value("${backend.server.url}")
     private String backendServerUrl;
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByLogin(username);
@@ -49,7 +46,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User saveUser(User user) {
         RestTemplate restTemplate = new RestTemplate();
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return restTemplate.postForEntity(backendServerUrl + "users/", user, User.class).getBody();
     }
 

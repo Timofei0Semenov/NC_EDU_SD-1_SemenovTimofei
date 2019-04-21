@@ -20,7 +20,7 @@ export class MeetingService {
     return this.http.get<Meeting[]>('/api//meetings/all');
   }
 
-  deleteMeeting(meetingId: number): Observable<void> {
+  deleteMeeting(meetingId: number) {
     return this.http.delete<void>('/api//meetings/' + meetingId);
   }
 
@@ -30,5 +30,17 @@ export class MeetingService {
 
   getMeetingById(id: number): Observable<Meeting> {
     return this.http.get<Meeting>('/api/meetings/id/' + id);
+  }
+
+  getByMember(login: string): Observable<Meeting[]> {
+    return this.http.get<Meeting[]>('/api/meetings/byMember/' + login);
+  }
+
+  getByOwner(login: string): Observable<Meeting[]> {
+    return this.http.get<Meeting[]>('/api/meetings/byOwner/' + login);
+  }
+
+  addMember(meeting: Meeting, login: string) {
+    return this.http.post('api/meetings/' + login, meeting);
   }
 }

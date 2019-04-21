@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ConfirmPassword} from './confirmPassword';
 import {UserService} from '../../../services/user.service';
 import {User} from '../../user/models/user';
+import {AuthService} from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -13,9 +14,10 @@ import {User} from '../../user/models/user';
 export class RegisterComponent implements OnInit {
 
   userRegistrationGroup: FormGroup;
+  user: User;
 
   constructor(private router: Router, private formBuilder: FormBuilder,
-              private userService: UserService) {
+              private userService: UserService, private authService: AuthService) {
   }
 
   createForm() {
@@ -90,19 +92,25 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.logout();
     this.createForm();
   }
 
   register() {
-    console.log('click');
-    /*this.userService.getUserById(1).subscribe(data => console.log(data));*/
-    /*this.userService.getUserById(1).subscribe(data => console.log(data));
-    this.userService.saveUser(new User(this.userRegistrationGroup.get('firstNameFormControl').value,
+    if (this.userRegistrationGroup.invalid) {
+      return;
+    }
+    this.user = new User(null, this.userRegistrationGroup.get('firstNameFormControl').value,
       this.userRegistrationGroup.get('lastNameFormControl').value,
-      this.userRegistrationGroup.get('loginFormControl').value,
-      'user',
+      this.userRegistrationGroup.get('loginFormControl').value, 'user',
       this.userRegistrationGroup.get('emailFormControl').value,
-      this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value)).subscribe((data) => console.log(data));*/
+      this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value);
+
+    this.userService.createUser(this.user).subscribe(login => {
+      this.authService.login(this.userRegistrationGroup.get('loginFormControl').value,
+        this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value);
+    });
   }
+
 }
 

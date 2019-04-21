@@ -20,12 +20,12 @@ export class UserService {
     return this.http.get<User[]>('/api/users/all');
   }
 
-  deleteUser(userId: string): Observable<void> {
+  deleteUser(userId: string) {
     return this.http.delete<void>('/api/users/' + userId);
   }
 
-  saveUser(user: User): Observable<User> {
-    return this.http.post<User>('/api/users', user);
+  createUser(user: User): Observable<User> {
+    return this.http.post<User>('/api/users/', user);
   }
 
   getUserById(id: number): Observable<User> {
@@ -35,8 +35,22 @@ export class UserService {
   }
 
   getUserByLogin(login: string): Observable<User> {
-    return this.http.get<User>('/api/users/login/' + login + '?access_token=' +
-      JSON.parse(window.sessionStorage.getItem('token')).access_token);
+    return this.http.get<User>('/api/users/login/' + login);
   }
 
+  getUsersByMeeting(idMeeting: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/byMeeting/' + idMeeting);
+  }
+
+  updateUser(user: User) {
+    return this.http.put('/api/users', user);
+  }
+
+  getUsersByFriend(idUser: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/byFriend/' + idUser);
+  }
+
+  addFriend(user: User, loginFriend: string) {
+    return this.http.post('api/users/addFriend/' + loginFriend, user);
+  }
 }

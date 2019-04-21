@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <mat-toolbar-row>
     <button id="title" mat-button (click)="goHome()" >The Best Calendar</button>
-
+    <span>{{this.user.firstName}} {{this.user.lastName}}</span>
     <span class="example-spacer"></span>
     <button mat-raised-button color="primary" (click)="logout()">
         <mat-icon>exit_to_app</mat-icon>

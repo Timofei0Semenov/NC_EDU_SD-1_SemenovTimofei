@@ -8,6 +8,9 @@ import {CustomDateFormatter} from './custom-date.formatter.provider';
 import {AuthService} from '../../../../services/auth.service';
 import {UserService} from '../../../../services/user.service';
 import {MeetingService} from '../../../../services/meeting.service';
+import {Router} from '@angular/router';
+import {MatDialog} from '@angular/material';
+import {AddNewEventComponent} from '../add-new-event/add-new-event.component';
 
 @Component({
   selector: 'app-calendar',
@@ -29,19 +32,20 @@ export class CalendarComponent implements OnInit {
   events: Meeting[] = [];
   user: User;
 
-  constructor(private authService: AuthService, private userService: UserService, private meetingsService: MeetingService) {
+  constructor(private authService: AuthService, private userService: UserService, private meetingsService: MeetingService,
+              private router: Router, private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    /*this.authService.currentUser.subscribe(data => this.user = data);
-    this.meetingsService.getAllMeetings().subscribe(data => {
+    if (!this.authService.isAuthorized()) {
+      this.router.navigateByUrl('/login');
+    }
+    this.user = JSON.parse(window.localStorage.getItem('currentUser'));
+    this.meetingsService.getByMember(this.user.login).subscribe(data => {
       this.events = data.map(item => {
-        return new Meeting(item.id, item.title, item.start, item.end, item.room, item.owner, item.members);
+        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner);
       });
-    });*/
-    /*this.userService.getUserById(1).subscribe((data: User) =>
-      this.user = new User(data.id, data.firstName, data.lastName, data.login, data.role, data.email, data.password,
-        data.meetings, data.meetingsCreatedMe));*/
+    });
   }
 
   closeOpenMonthViewDay() {
@@ -69,5 +73,9 @@ export class CalendarComponent implements OnInit {
 
   setView(view: CalendarView) {
     this.view = view;
+  }
+
+  clickAdd() {
+    this.dialog.open(AddNewEventComponent);
   }
 }

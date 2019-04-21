@@ -1,15 +1,5 @@
-
-<div style="text-align: right">
-  <button mat-fab (click)="clickAdd()">
-    <mat-icon>{{icon}}</mat-icon>
-  </button>
-</div>
-
-<div *ngIf="isAddNew">
-  <h3>
-    Creat new meeting
-  </h3>
-
+<h2 mat-dialog-title>Create new meeting</h2>
+<mat-dialog-content class="mat-typography">
   <div class="table-responsive">
     <table class="table table-bordered">
       <thead>
@@ -31,10 +21,13 @@
         />
       </td>
       <td>
-        <input
-          type="text"
-          class="form-control"
-        />
+        <mat-form-field>
+          <mat-label>Toppings</mat-label>
+          <mat-select [formControl]="members" multiple>
+            <mat-option *ngFor="let friend of friends" [value]="friend">{{friend.firstName}} {{friend.lastName}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
       </td>
       <td>
         <input
@@ -70,16 +63,16 @@
           dateFormat="Y-m-dTH:i"
           altFormat="F j, Y H:i"
           [time24hr]="true"
-          [minDate]="today"
+          [minDate]="start"
           placeholder="Choose date"
         />
       </td>
       </tbody>
     </table>
-    <div style="text-align: right">
-      <button mat-flat-button color="primary" (click)="creatMeeting">
-        Create
-      </button>
-    </div>
   </div>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial
+          (click)="createMeeting()">Create</button>
+</mat-dialog-actions>

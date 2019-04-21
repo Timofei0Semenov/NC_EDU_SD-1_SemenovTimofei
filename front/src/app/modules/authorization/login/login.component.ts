@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
-import {HttpParams} from '@angular/common/http';
 import {UserService} from '../../../services/user.service';
 import {User} from '../../user/models/user';
 
@@ -15,10 +14,10 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
   user: User;
+  hide = true;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
               private authService: AuthService, private userService: UserService) {
-    /*this.createForm();*/
   }
 
   createForm() {
@@ -49,8 +48,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    /*this.authService.logout();*/
-    window.localStorage.removeItem('token');
+    this.authService.logout();
     this.createForm();
   }
 
@@ -59,22 +57,24 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const body = new HttpParams()
+    this.authService.login(this.loginForm.get('usernameFormControl').value, this.loginForm.get('passwordFormControl').value);
+    /*const body = new HttpParams()
       .set('username', this.loginForm.get('usernameFormControl').value)
       .set('password', this.loginForm.get('passwordFormControl').value)
       .set('grant_type', 'password');
 
     this.authService.login(body.toString()).subscribe(data => {
       window.localStorage.setItem('token', JSON.stringify(data));
-      console.log(window.localStorage.getItem('token'));
-      this.userService.getUserByLogin('login')
-        .subscribe((data2: User) => this.user =
-          new User(data2.id, data2.firstName, data2.lastName, data2.login, data2.role, data2.email, data2.password,
-            data2.meetings, data2.meetingsCreatedMe));
-      this.authService.changeCurrentUser(this.user);
-      console.log(this.user);
-    });
-
+      this.userService.getUserByLogin(this.loginForm.get('usernameFormControl').value)
+        .subscribe((data2: User) => {
+          this.user =
+            new User(data2.idUser, data2.firstName, data2.lastName, data2.login, data2.role, data2.email, data2.password);
+          window.localStorage.setItem('currentUser', JSON.stringify(this.user));
+          if (this.authService.isAuthorized()) {
+            this.router.navigateByUrl('/home');
+          }
+        });
+    });*/
   }
 }
 

@@ -1,19 +1,17 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {User} from '../modules/user/models/user';
-import {BehaviorSubject, Observable} from 'rxjs';
+import {UserService} from './user.service';
+import {Router} from '@angular/router';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
-  private userSource: BehaviorSubject<User>;
-  public currentUser: Observable<User>;
+  user: User;
 
-  constructor(private http: HttpClient) {
-    this.userSource = new BehaviorSubject<User>(null);
-    this.currentUser = this.userSource.asObservable();
+  constructor(private http: HttpClient, private userService: UserService, private router: Router) {
   }
 
-  login(loginPayload) {
+  getToken(loginPayload) {
     const headers = {
       'Authorization': 'Basic ' + btoa('frontend-client:frontend-secret'),
       'Content-type': 'application/x-www-form-urlencoded'
@@ -23,11 +21,30 @@ export class AuthService {
 
   logout() {
     localStorage.removeItem('token');
-    this.currentUser = null;
-    this.userSource.next(null);
+    localStorage.removeItem('currentUser');
   }
 
-  changeCurrentUser(user: User) {
-    this.userSource.next(user);
+  isAuthorized() {
+    return JSON.parse(window.localStorage.getItem('currentUser')) != null;
+  }
+
+  login(username: string, password: string) {
+    const body = new HttpParams()
+      .set('username', username)
+      .set('password', password)
+      .set('grant_type', 'password');
+
+    this.getToken(body.toString()).subscribe(data => {
+      window.localStorage.setItem('token', JSON.stringify(data));
+      this.userService.getUserByLogin(username)
+        .subscribe((data2: User) => {
+          this.user =
+            new User(data2.idUser, data2.firstName, data2.lastName, data2.login, data2.role, data2.email, data2.password);
+          window.localStorage.setItem('currentUser', JSON.stringify(this.user));
+          if (this.isAuthorized()) {
+            this.router.navigateByUrl('/home');
+          }
+        });
+    });
   }
 }

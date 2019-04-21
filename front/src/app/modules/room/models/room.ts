@@ -1,5 +1,3 @@
-import {Meeting} from '../../meeting/models/meeting';
-
 export class Room {
 
   id: number;
@@ -10,10 +8,9 @@ export class Room {
   building?: number;
   flour: number;
   room: number;
-  meetings: Meeting[];
 
   constructor(id: number, name: string, city: string, street: string, house: number, building: number,
-              flour: number, room: number, meetings: Meeting[]) {
+              flour: number, room: number) {
     this.id = id;
     this.name = name;
     this.city = city;
@@ -22,6 +19,5 @@ export class Room {
     this.building = building;
     this.flour = flour;
     this.room = room;
-    this.meetings = meetings;
   }
 }

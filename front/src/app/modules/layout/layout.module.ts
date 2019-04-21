@@ -6,10 +6,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {AddNewEventComponent} from './components/add-new-event/add-new-event.component';
-import {MatButtonModule} from '@angular/material';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {FlatpickrModule} from 'angularx-flatpickr';
-import { HeaderComponent } from './components/header/header.component';
+import {HeaderComponent} from './components/header/header.component';
 import {BrowserModule} from '@angular/platform-browser';
 import {CustomMaterialModule} from '../../material.module';
 
@@ -23,8 +22,8 @@ import {CustomMaterialModule} from '../../material.module';
   imports: [
     RouterModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatButtonModule,
     BrowserModule,
     CustomMaterialModule,
     FlatpickrModule.forRoot(),
@@ -34,6 +33,7 @@ import {CustomMaterialModule} from '../../material.module';
     })
   ],
   providers: [],
+  entryComponents: [AddNewEventComponent],
   exports: [HomeComponent, CalendarComponent]
 })
 export class LayoutModule {

@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
+import {User} from '../../../user/models/user';
+import {UserService} from '../../../../services/user.service';
+import {FormControl} from '@angular/forms';
 
 @Component({
   selector: 'app-add-new-event',
@@ -8,30 +10,26 @@ import {Router} from '@angular/router';
 })
 export class AddNewEventComponent implements OnInit {
 
-  isAddNew = false;
-  today: Date = new Date();
+  today = new Date();
   title: string;
   start: Date;
   end: Date;
-  icon = 'add';
-
-  constructor(private router: Router) {
+  user: User;
+  friends: User[];
+  members = new FormControl();
+  toppingList: string[] = ['Extra cheese', 'Mushroom', 'Onion', 'Pepperoni', 'Sausage', 'Tomato'];
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
+    this.user = JSON.parse(window.localStorage.getItem('currentUser'));
+    this.userService.getUsersByFriend(this.user.idUser).subscribe(data => {
+      this.friends = data.map(item => {
+        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
+      });
+    });
   }
 
-  clickAdd() {
-    this.isAddNew = !this.isAddNew;
-    if (!this.isAddNew) {
-      this.icon = 'add';
-    } else {
-      this.icon = 'arrow_back';
-    }
+  createMeeting(): void {
   }
-
-  creatMeeting(): void {
-  }
-
-
 }

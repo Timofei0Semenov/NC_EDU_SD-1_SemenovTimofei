@@ -18,8 +18,9 @@
           <tr>
             <td>
               <mat-form-field class="example-full-width">
-                <input matInput placeholder="Password" type="password"
+                <input (keyup.enter)="login()" matInput placeholder="Password" [type]="hide ? 'password' : 'text'"
                        formControlName="passwordFormControl" required>
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 <mat-error>{{getPasswordErrorName()}}</mat-error>
               </mat-form-field>
             </td>
@@ -28,7 +29,7 @@
       </form>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button [routerLink]="['/home']" (click)="login()" color="primary" >Login</button>
+      <button mat-raised-button (click)="login()" color="primary">Login</button>
       <button mat-button [routerLink]="['/register']">Register</button>
     </mat-card-actions>
   </mat-card>

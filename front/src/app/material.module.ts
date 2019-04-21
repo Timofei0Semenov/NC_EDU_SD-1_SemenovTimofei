@@ -1,4 +1,5 @@
 import {NgModule} from '@angular/core';
+import {MatSelectModule} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
 import {
   MatButtonModule,
@@ -9,7 +10,7 @@ import {
   MatMenuModule,
   MatProgressSpinnerModule,
   MatTableModule,
-  MatToolbarModule
+  MatToolbarModule,
 } from '@angular/material';
 
 @NgModule({
@@ -35,7 +36,8 @@ import {
     MatTableModule,
     MatMenuModule,
     MatIconModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
 })
 
