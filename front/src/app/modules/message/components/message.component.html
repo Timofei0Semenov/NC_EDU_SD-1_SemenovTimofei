@@ -1,0 +1,19 @@
+<button mat-button [matMenuTriggerFor]="notifications">
+  <mat-icon *ngIf="messages.length > 0; else noneMessages;" matBadge="{{messages.length}}" matBadgeColor="warn">
+    notifications
+  </mat-icon>
+  <ng-template #noneMessages>
+    <mat-icon>notifications_none</mat-icon>
+  </ng-template>
+</button>
+<mat-menu #notifications="matMenu">
+  <div *ngFor="let message of messages" align="center">
+    <p style="margin-bottom: 0; padding-bottom: 0;">{{message.textMessage}}</p>
+    <button mat-button (click)="reject(message); $event.stopPropagation();" color="warn">
+      <mat-icon>clear</mat-icon>
+    </button>
+    <button mat-button (click)="accept(message); $event.stopPropagation();" color="success">
+      <mat-icon>check</mat-icon>
+    </button>
+  </div>
+</mat-menu>

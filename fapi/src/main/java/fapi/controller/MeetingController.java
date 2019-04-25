@@ -1,14 +1,13 @@
 package fapi.controller;
 
 import fapi.models.Meeting;
+import fapi.models.User;
+import fapi.service.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import fapi.service.MeetingService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/fapi/meetings")
@@ -32,8 +31,8 @@ public class MeetingController {
     }
 
     @PostMapping
-    public ResponseEntity<Meeting> saveMeeting(@RequestBody Meeting meeting) {
-        return ResponseEntity.ok(meetingService.saveMeeting(meeting));
+    public ResponseEntity<Meeting> createMeeting(@RequestBody Meeting meeting) {
+        return ResponseEntity.ok(meetingService.createMeeting(meeting));
     }
 
     @DeleteMapping(value = "/{id}")
@@ -51,8 +50,8 @@ public class MeetingController {
         return ResponseEntity.ok(meetingService.findAllByOwner(login));
     }
 
-    @PostMapping(value = "/addMember/{login}")
-    public void addMember(@RequestBody Meeting input, @PathVariable String login) {
-        meetingService.addMember(input, login);
+    @PostMapping(value = "/addMember/{idMeeting}")
+    public void addMember(@RequestBody User[] input, @PathVariable Long idMeeting) {
+        meetingService.addMember(input, idMeeting);
     }
 }

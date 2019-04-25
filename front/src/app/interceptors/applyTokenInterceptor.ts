@@ -13,7 +13,7 @@ export class ApplyTokenInterceptor implements HttpInterceptor {
 
     const authReq = req.clone({
       setHeaders: {
-       Authorization: `Bearer ${JSON.parse(window.localStorage.getItem('token')).access_token}`
+        Authorization: `Bearer ${JSON.parse(window.localStorage.getItem('token')).access_token}`
       }
     });
     return next.handle(authReq);

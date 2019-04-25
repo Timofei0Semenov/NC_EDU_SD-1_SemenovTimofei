@@ -36,7 +36,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Value("${security.oauth2.resource.id}")
     private String resourceId;
 
-    private static final int accessToken = 1 * 60 * 60;
+    private static final int accessToken = 1 * 6 * 60;
 
     private static final int refreshToken = 6 * 60 * 60;
 

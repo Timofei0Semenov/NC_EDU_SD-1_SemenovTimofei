@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>Create new meeting</h2>
+<mat-dialog-content class="mat-typography">
+  <div>
+    <h3>Title</h3>
+    <input
+      type="text" class="form-control" [(ngModel)]="title" placeholder="Input title"/>
+  </div>
+  <div>
+    <h3>Members</h3>
+    <mat-form-field>
+      <mat-label>Add members</mat-label>
+      <mat-select [(ngModel)]="members" multiple>
+        <mat-option *ngFor="let friend of friends" [value]="friend">{{friend.firstName}} {{friend.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <div class="inline">
+      <h3>Starts at</h3>
+      <input
+        class="form-control"
+        type="text"
+        mwlFlatpickr
+        [(ngModel)]="start"
+        [altInput]="true"
+        [convertModelValue]="true"
+        [enableTime]="true"
+        dateFormat="Y-m-dTH:i"
+        altFormat="F j, Y H:i"
+        [time24hr]="true"
+        [minDate]="today"
+        placeholder="Choose date"
+      />
+    </div>
+    <div class="inline">
+      <h3>Ends at</h3>
+      <input
+        class="form-control"
+        type="text"
+        mwlFlatpickr
+        [(ngModel)]="end"
+        [altInput]="true"
+        [convertModelValue]="true"
+        [enableTime]="true"
+        dateFormat="Y-m-dTH:i"
+        altFormat="F j, Y H:i"
+        [time24hr]="true"
+        [minDate]="start"
+        placeholder="Choose date"
+      />
+    </div>
+  </div>
+  <div>
+    <h3>Room</h3>
+    <mat-form-field>
+      <mat-label>Choose room</mat-label>
+      <mat-select [(ngModel)]="room">
+        <mat-option *ngFor="let item of allRooms" [value]="item">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial
+          (click)="createMeeting()">Create
+  </button>
+</mat-dialog-actions>

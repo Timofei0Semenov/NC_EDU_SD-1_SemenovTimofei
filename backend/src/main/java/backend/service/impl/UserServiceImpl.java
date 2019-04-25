@@ -55,4 +55,9 @@ public class UserServiceImpl implements UserService {
     public List<User> findByFriendsContains(User user) {
         return userRepository.findByFriendsContains(user);
     }
+
+    @Override
+    public List<User> findAllByFriendsNotContains(User user) {
+        return userRepository.findAllByFriendsNotContains(user);
+    }
 }

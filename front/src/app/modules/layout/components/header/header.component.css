@@ -5,3 +5,8 @@
 #title {
   font-size: 40px;
 }
+
+.mat-success {
+  background-color: #fff;
+  color: green;
+}

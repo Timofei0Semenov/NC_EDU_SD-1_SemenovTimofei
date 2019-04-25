@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Meeting} from '../modules/meeting/models/meeting';
+import {User} from '../modules/user/models/user';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +41,7 @@ export class MeetingService {
     return this.http.get<Meeting[]>('/api/meetings/byOwner/' + login);
   }
 
-  addMember(meeting: Meeting, login: string) {
-    return this.http.post('api/meetings/' + login, meeting);
+  addMember(users: User[], idMeeting: string) {
+    return this.http.post('api/meetings/addMember/' + idMeeting, users);
   }
 }

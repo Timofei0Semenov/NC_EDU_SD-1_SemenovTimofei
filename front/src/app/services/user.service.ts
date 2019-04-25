@@ -53,4 +53,8 @@ export class UserService {
   addFriend(user: User, loginFriend: string) {
     return this.http.post('api/users/addFriend/' + loginFriend, user);
   }
+
+  getNewFriends(idUser: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/newFriends/' + idUser);
+  }
 }

@@ -19,6 +19,14 @@ export class AuthService {
     return this.http.post('http://localhost:8081/oauth/token', loginPayload, {headers});
   }
 
+  refreshToken(loginPayload) {
+    const headers = {
+      'Authorization': 'Basic ' + btoa('frontend-client:frontend-secret'),
+      'Content-type': 'application/x-www-form-urlencoded'
+    }
+    return this.http.post('http://localhost:8081/oauth/token', loginPayload, {headers});
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');

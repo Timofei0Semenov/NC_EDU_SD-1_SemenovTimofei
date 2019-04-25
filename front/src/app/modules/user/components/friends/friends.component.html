@@ -1,0 +1,11 @@
+<form class="friends-form">
+  <mat-form-field class="friends-full-width">
+    <input type="text" placeholder="Your friends" aria-label="Number" matInput [formControl]="friendsControl"
+           [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+      <mat-option *ngFor="let friend of friends" [value]="friend">
+        {{friend.firstName}} {{friend.lastName}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</form>

@@ -1,0 +1,6 @@
+div.inline { float:left; }
+.clearBoth { clear:both; }
+h3 {font-weight: bold; margin-top: 9px}
+mat-form-field {
+  width: 100%;
+}

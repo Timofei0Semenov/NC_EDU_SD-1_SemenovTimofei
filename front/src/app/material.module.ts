@@ -2,11 +2,13 @@ import {NgModule} from '@angular/core';
 import {MatSelectModule} from '@angular/material/select';
 import {CommonModule} from '@angular/common';
 import {
+  MatAutocompleteModule,
+  MatBadgeModule,
   MatButtonModule,
   MatCardModule,
   MatDialogModule,
   MatIconModule,
-  MatInputModule,
+  MatInputModule, MatListModule,
   MatMenuModule,
   MatProgressSpinnerModule,
   MatTableModule,
@@ -33,8 +35,11 @@ import {
     MatCardModule,
     MatInputModule,
     MatDialogModule,
+    MatAutocompleteModule,
+    MatListModule,
     MatTableModule,
     MatMenuModule,
+    MatBadgeModule,
     MatIconModule,
     MatProgressSpinnerModule,
     MatSelectModule

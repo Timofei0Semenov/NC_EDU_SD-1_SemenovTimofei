@@ -20,22 +20,22 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public Room saveRoom(@RequestBody Room room) {
         return roomService.saveRoom(room);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void deleteRoom(@PathVariable(name = "id") Long id) {
         roomService.deleteRoom(id);
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @GetMapping(value = "/all")
     public List<Room> getAllRooms() {
         return roomService.findAll();
     }
 
-    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/id/{id}")
     public ResponseEntity<Room> getRoomById(@PathVariable(name = "id") Long id) {
         Optional<Room> room = roomService.findRoomById(id);
         return room.isPresent() ? ResponseEntity.ok(room.get()) : ResponseEntity.notFound().build();

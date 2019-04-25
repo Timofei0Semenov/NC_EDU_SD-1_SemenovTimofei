@@ -28,6 +28,6 @@ export class MessageService {
   }
 
   getByReceiver(login: string): Observable<Message[]> {
-    return this.http.get<Message[]>('/api/messages/' + login);
+    return this.http.get<Message[]>('/api/messages/byReceiver/' + login);
   }
 }

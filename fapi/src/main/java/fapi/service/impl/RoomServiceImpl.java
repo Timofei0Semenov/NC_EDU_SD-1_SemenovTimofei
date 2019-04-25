@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class RoomServiceImpl implements RoomService {
 
-    @Value("${backend.server.url")
+    @Value("${backend.server.url}")
     private String backendServerUrl;
 
     @Override

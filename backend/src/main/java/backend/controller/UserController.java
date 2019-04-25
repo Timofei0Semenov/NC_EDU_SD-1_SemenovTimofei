@@ -99,4 +99,13 @@ public class UserController {
         userService.saveUser(friend.get());
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping(value = "/newFriends/{id}")
+    public ResponseEntity<List<User>> getNotFriends(@PathVariable(name = "id") @Min(value = 1) Long idUser) {
+        Optional<User> user = userService.findUserById(idUser);
+        if (!user.isPresent()) return ResponseEntity.notFound().build();
+        List<User> friends = new ArrayList<>();
+        friends = userService.findAllByFriendsNotContains(user.get());
+        return ResponseEntity.ok(friends);
+    }
 }

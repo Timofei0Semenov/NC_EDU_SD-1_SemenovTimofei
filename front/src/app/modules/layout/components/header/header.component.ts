@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../../../services/auth.service';
 import {User} from '../../../user/models/user';
 import {Router} from '@angular/router';
-import {UserService} from '../../../../services/user.service';
+import {MatDialog} from '@angular/material';
+import {AddFriendComponent} from '../../../user/components/add-friend/add-friend.component';
 
 @Component({
   selector: 'app-header',
@@ -12,7 +13,7 @@ import {UserService} from '../../../../services/user.service';
 export class HeaderComponent implements OnInit {
   user: User;
 
-  constructor(private authService: AuthService, private router: Router, private userService: UserService) {
+  constructor(private authService: AuthService, private router: Router, private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
 
   goHome() {
     this.router.navigateByUrl('/home');
+    console.log(window.localStorage.getItem('token'));
   }
 
   logout() {
@@ -31,4 +33,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl('/login');
   }
 
+  addFriends() {
+    this.dialog.open(AddFriendComponent, {width: '30%'});
+  }
 }

@@ -1,17 +1,17 @@
 export class Room {
 
-  id: number;
+  idRoom: string;
   name: string;
   city: string;
   street: string;
-  house: number;
-  building?: number;
-  flour: number;
-  room: number;
+  house: string;
+  building?: string;
+  flour: string;
+  room: string;
 
-  constructor(id: number, name: string, city: string, street: string, house: number, building: number,
-              flour: number, room: number) {
-    this.id = id;
+  constructor(idRoom: string, name: string, city: string, street: string, house: string, building: string,
+              flour: string, room: string) {
+    this.idRoom = idRoom;
     this.name = name;
     this.city = city;
     this.street = street;

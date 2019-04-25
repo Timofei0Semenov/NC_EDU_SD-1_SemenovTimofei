@@ -10,6 +10,7 @@ import {LayoutModule} from './modules/layout/layout.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthorizationModule} from './modules/authorization/authorization.module';
 import {ApplyTokenInterceptor} from './interceptors/applyTokenInterceptor';
+import {RefreshTokenInterceptor} from './interceptors/RefreshTokenInterceptor';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,12 @@ import {ApplyTokenInterceptor} from './interceptors/applyTokenInterceptor';
     provide: HTTP_INTERCEPTORS,
     useClass: ApplyTokenInterceptor,
     multi: true
-  }
+  },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RefreshTokenInterceptor,
+      multi: true
+    }
   ]
 })
 export class AppModule {

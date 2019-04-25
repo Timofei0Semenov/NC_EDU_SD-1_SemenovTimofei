@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,7 +41,7 @@ public class MeetingController {
     }
 
     @PostMapping
-    public ResponseEntity<Meeting> saveMeeting(@RequestBody Meeting meeting) {
+    public ResponseEntity<Meeting> createMeeting(@RequestBody Meeting meeting) {
         if (meeting.getStart().after(meeting.getEnd())) return ResponseEntity.badRequest().build();
         meetingService.saveMeeting(meeting);
         return ResponseEntity.ok(meetingService.findMeetingById(meeting.getIdMeeting()).get());
@@ -70,14 +71,28 @@ public class MeetingController {
         return ResponseEntity.ok(meetings);
     }
 
-    @PostMapping(value = "/addMember/{login}")
-    public ResponseEntity addMember(@RequestBody Meeting input, @PathVariable String login) {
-        Optional<User> user = userService.findByLogin(login);
-        if (!user.isPresent()) return ResponseEntity.badRequest().build();
-        Optional<Meeting> meeting = meetingService.findMeetingById(input.getIdMeeting());
+    @PostMapping(value = "/addMember/{idMeeting}")
+    public ResponseEntity addMember(@RequestBody User[] input, @PathVariable Long idMeeting) {
+        Optional<Meeting> meeting = meetingService.findMeetingById(idMeeting);
         if (!meeting.isPresent()) return ResponseEntity.badRequest().build();
-        meeting.get().getMembers().add(user.get());
+        for (User item : input) {
+            Optional<User> user = userService.findByLogin(item.getLogin());
+            if (!user.isPresent()) return ResponseEntity.badRequest().build();
+            meeting.get().getMembers().add(user.get());
+        }
         meetingService.saveMeeting(meeting.get());
         return ResponseEntity.ok().build();
+    }
+
+    @PutMapping
+    public ResponseEntity<Meeting> updateUser(@RequestBody Meeting meeting) {
+        Optional<Meeting> updateMeet = meetingService.findMeetingById(meeting.getIdMeeting());
+        if (!updateMeet.isPresent()) return ResponseEntity.notFound().build();
+        updateMeet.get().setStart(meeting.getStart());
+        updateMeet.get().setEnd(meeting.getEnd());
+        updateMeet.get().setTitle(meeting.getTitle());
+        updateMeet.get().setRoom(meeting.getRoom());
+        meetingService.saveMeeting(updateMeet.get());
+        return ResponseEntity.ok(updateMeet.get());
     }
 }

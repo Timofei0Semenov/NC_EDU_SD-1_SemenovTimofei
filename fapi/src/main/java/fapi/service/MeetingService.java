@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MeetingService {
-    Meeting saveMeeting(Meeting meeting);
+    Meeting createMeeting(Meeting meeting);
 
     Meeting findMeetingById(Long id);
 
@@ -20,5 +20,5 @@ public interface MeetingService {
 
     List<Meeting> findAllByOwner(String login);
 
-    void addMember(Meeting input, String login);
+    void addMember(User[] input, Long idMeeting);
 }

@@ -1,6 +1,7 @@
 package fapi.service.impl;
 
 import fapi.models.Meeting;
+import fapi.models.User;
 import fapi.service.MeetingService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class MeetingServiceImpl implements MeetingService {
     private String backendServerUrl;
 
     @Override
-    public Meeting saveMeeting(Meeting meeting) {
+    public Meeting createMeeting(Meeting meeting) {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl + "meetings/", meeting, Meeting.class).getBody();
     }
@@ -57,8 +58,8 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void addMember(Meeting input, String login) {
+    public void addMember(User[] input, Long idMeeting) {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.postForEntity(backendServerUrl + "meetings/addMember/" + login, input, Meeting.class);
+        restTemplate.postForEntity(backendServerUrl + "meetings/addMember/" + idMeeting, input, Meeting.class);
     }
 }

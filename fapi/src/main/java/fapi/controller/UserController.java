@@ -69,4 +69,9 @@ public class UserController {
     public ResponseEntity addFriend(@RequestBody User input, @PathVariable String login) {
         return userService.addFriend(input, login);
     }
+
+    @GetMapping(value = "/newFriends/{id}")
+    public ResponseEntity<List<User>> getNotFriends(@PathVariable(name = "id") @Min(value = 1) Long idUser) {
+        return ResponseEntity.ok(userService.findByFriendsNotContains(idUser));
+    }
 }

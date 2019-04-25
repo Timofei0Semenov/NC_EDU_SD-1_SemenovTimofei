@@ -22,4 +22,6 @@ public interface UserService {
     Optional<User> findByEmail(String email);
 
     List<User> findByFriendsContains(User user);
+
+    List<User> findAllByFriendsNotContains(User user);
 }

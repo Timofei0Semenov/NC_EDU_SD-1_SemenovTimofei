@@ -5,16 +5,14 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
-import org.aspectj.lang.annotation.After;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -34,14 +32,14 @@ public class Meeting {
     @Size(min = 4, max = 30, message = "Title must be more 4 and less 30 symbols")
     private String title;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     @Basic
     @NotNull
     @FutureOrPresent
     @Column(name = "start")
     private Date start;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     @Basic
     @NotNull
     @FutureOrPresent
@@ -64,5 +62,5 @@ public class Meeting {
     @JoinTable(name = "users_meetings", schema = "backend",
             joinColumns = @JoinColumn(name = "id_meeting"),
             inverseJoinColumns = @JoinColumn(name = "id_user"))
-    private List<User> members = new ArrayList<>();
+    private Set<User> members = new HashSet<>();
 }

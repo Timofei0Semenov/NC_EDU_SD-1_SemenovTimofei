@@ -10,7 +10,7 @@ import {UserService} from '../../../../services/user.service';
 import {MeetingService} from '../../../../services/meeting.service';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
-import {AddNewEventComponent} from '../add-new-event/add-new-event.component';
+import {AddNewEventComponent} from '../../../meeting/components/add-new-event/add-new-event.component';
 
 @Component({
   selector: 'app-calendar',
@@ -79,3 +79,4 @@ export class CalendarComponent implements OnInit {
     this.dialog.open(AddNewEventComponent);
   }
 }
+

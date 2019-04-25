@@ -1,0 +1,9 @@
+.friends-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.friends-full-width {
+  width: 100%;
+}

@@ -93,4 +93,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         RestTemplate restTemplate = new RestTemplate();
         return restTemplate.postForEntity(backendServerUrl + "users/addFriend/" + login, user, ResponseEntity.class);
     }
+
+    @Override
+    public List<User> findByFriendsNotContains(Long id) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] response = restTemplate.getForObject(backendServerUrl + "users/newFriends/" + id, User[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
 }

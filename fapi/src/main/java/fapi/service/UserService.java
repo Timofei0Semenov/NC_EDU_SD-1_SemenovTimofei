@@ -23,4 +23,6 @@ public interface UserService {
     void updateUser(User user);
 
     ResponseEntity addFriend(User user, String login);
+
+    List<User> findByFriendsNotContains(Long id);
 }
