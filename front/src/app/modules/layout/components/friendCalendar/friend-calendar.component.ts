@@ -1,22 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CalendarDateFormatter, CalendarView} from 'angular-calendar';
 import {isSameDay, isSameMonth} from 'date-fns';
 import 'rxjs/add/operator/map';
-import {User} from '../../../user/models/user';
 import {Meeting} from '../../../meeting/models/meeting';
-import {CustomDateFormatter} from './custom-date.formatter.provider';
-import {AuthService} from '../../../../services/auth.service';
 import {UserService} from '../../../../services/user.service';
 import {MeetingService} from '../../../../services/meeting.service';
-import {Router} from '@angular/router';
-import {MatDialog} from '@angular/material';
-import {AddNewEventComponent} from '../../../meeting/components/add-new-event/add-new-event.component';
+import {MAT_DIALOG_DATA, MatDialog} from '@angular/material';
 import {ShowMeetingComponent} from '../../../meeting/components/show-meeting/show-meeting.component';
+import {CustomDateFormatter} from '../calendar/custom-date.formatter.provider';
+import {scheduleTick} from '@angular/core/src/render3/instructions';
+import {asyncScheduler} from 'rxjs';
 
 @Component({
-  selector: 'app-calendar',
-  templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.css'],
+  selector: 'friend-calendar',
+  templateUrl: './friend-calendar.component.html',
   providers: [
     {
       provide: CalendarDateFormatter,
@@ -25,24 +22,20 @@ import {ShowMeetingComponent} from '../../../meeting/components/show-meeting/sho
   ],
 
 })
-export class CalendarComponent implements OnInit {
+export class FriendCalendarComponent implements OnInit {
   view: CalendarView = CalendarView.Month;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
   activeDayIsOpen: boolean = false;
   events: Meeting[] = [];
-  user: User;
 
-  constructor(private authService: AuthService, private userService: UserService, private meetingsService: MeetingService,
-              private router: Router, private dialog: MatDialog) {
+  constructor(private userService: UserService, private meetingsService: MeetingService,
+              private dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public login: string) {
+    asyncScheduler
   }
 
   ngOnInit() {
-    if (!this.authService.isAuthorized()) {
-      this.router.navigateByUrl('/login');
-    }
-    this.user = JSON.parse(window.localStorage.getItem('currentUser'));
-    this.meetingsService.getByMember(this.user.login).subscribe(data => {
+    this.meetingsService.getByMember(this.login).subscribe(data => {
       this.events = data.map(item => {
         return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner);
       });
@@ -76,8 +69,5 @@ export class CalendarComponent implements OnInit {
     this.view = view;
   }
 
-  clickAdd() {
-    this.dialog.open(AddNewEventComponent);
-  }
 }
 

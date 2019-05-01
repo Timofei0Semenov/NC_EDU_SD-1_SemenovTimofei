@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +42,9 @@ public class MeetingController {
     @PostMapping
     public ResponseEntity<Meeting> createMeeting(@RequestBody Meeting meeting) {
         if (meeting.getStart().after(meeting.getEnd())) return ResponseEntity.badRequest().build();
+        meeting.setOwner(userService.findUserById(meeting.getOwner().getIdUser()).get());
+        meetingService.saveMeeting(meeting);
+        meeting.getMembers().add(meeting.getOwner());
         meetingService.saveMeeting(meeting);
         return ResponseEntity.ok(meetingService.findMeetingById(meeting.getIdMeeting()).get());
     }
@@ -72,20 +74,18 @@ public class MeetingController {
     }
 
     @PostMapping(value = "/addMember/{idMeeting}")
-    public ResponseEntity addMember(@RequestBody User[] input, @PathVariable Long idMeeting) {
+    public ResponseEntity addMember(@RequestBody User input, @PathVariable Long idMeeting) {
         Optional<Meeting> meeting = meetingService.findMeetingById(idMeeting);
         if (!meeting.isPresent()) return ResponseEntity.badRequest().build();
-        for (User item : input) {
-            Optional<User> user = userService.findByLogin(item.getLogin());
-            if (!user.isPresent()) return ResponseEntity.badRequest().build();
-            meeting.get().getMembers().add(user.get());
-        }
+        Optional<User> user = userService.findByLogin(input.getLogin());
+        if (!user.isPresent()) return ResponseEntity.badRequest().build();
+        meeting.get().getMembers().add(user.get());
         meetingService.saveMeeting(meeting.get());
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Meeting> updateUser(@RequestBody Meeting meeting) {
+    public ResponseEntity<Meeting> updateMeeting(@RequestBody Meeting meeting) {
         Optional<Meeting> updateMeet = meetingService.findMeetingById(meeting.getIdMeeting());
         if (!updateMeet.isPresent()) return ResponseEntity.notFound().build();
         updateMeet.get().setStart(meeting.getStart());

@@ -1,7 +1,5 @@
 package backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -10,8 +8,6 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
-@JsonIdentityInfo(scope = Message.class, generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "idMessage")
 @Table(name = "messages", schema = "backend")
 public class Message {
 

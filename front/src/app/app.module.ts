@@ -11,10 +11,13 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AuthorizationModule} from './modules/authorization/authorization.module';
 import {ApplyTokenInterceptor} from './interceptors/applyTokenInterceptor';
 import {RefreshTokenInterceptor} from './interceptors/RefreshTokenInterceptor';
+import {MembersDialogComponent} from './modules/meeting/components/show-meeting/show-meeting.component';
+import {FriendCalendarComponent} from './modules/layout/components/friendCalendar/friend-calendar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MembersDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -38,7 +41,8 @@ import {RefreshTokenInterceptor} from './interceptors/RefreshTokenInterceptor';
       useClass: RefreshTokenInterceptor,
       multi: true
     }
-  ]
+  ],
+  entryComponents: [MembersDialogComponent, FriendCalendarComponent]
 })
 export class AppModule {
 }

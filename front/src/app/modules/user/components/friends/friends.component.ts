@@ -1,9 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AuthService} from '../../../../services/auth.service';
 import {User} from '../../models/user';
 import {UserService} from '../../../../services/user.service';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+import {MatAutocompleteSelectedEvent, MatDialog} from '@angular/material';
+import {FriendCalendarComponent} from '../../../layout/components/friendCalendar/friend-calendar.component';
 
 @Component({
   selector: 'app-friends',
@@ -13,9 +17,12 @@ import {Router} from '@angular/router';
 export class FriendsComponent implements OnInit {
   user: User;
   friends: User[] = [];
+  filteredFriends: Observable<User[]>;
   friendsControl = new FormControl();
+  @ViewChild('friendInput') friendInput: ElementRef<HTMLInputElement>;
 
-  constructor(private router: Router, private authService: AuthService, private userService: UserService) {
+  constructor(private router: Router, private authService: AuthService, private userService: UserService,
+              private dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -27,8 +34,21 @@ export class FriendsComponent implements OnInit {
       this.friends = data.map(item => {
         return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
       });
+      this.filteredFriends = this.friendsControl.valueChanges.pipe(
+        startWith(''),
+        map(friend => friend ? this._filter(friend) : this.friends)
+      );
     });
   }
 
+  private _filter(value: string): User[] {
+    const filterValue = value.toLowerCase();
+    return this.friends.filter(friend => (friend.firstName + friend.lastName).toLowerCase().includes(filterValue));
+  }
 
+  selectFriend(event: MatAutocompleteSelectedEvent): void {
+    this.friendInput.nativeElement.value = '';
+    this.friendsControl.setValue(null);
+    this.dialog.open(FriendCalendarComponent, {width: '95%', height: '95%', data: event.option.value});
+  }
 }

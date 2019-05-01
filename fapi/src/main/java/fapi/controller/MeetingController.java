@@ -51,7 +51,7 @@ public class MeetingController {
     }
 
     @PostMapping(value = "/addMember/{idMeeting}")
-    public void addMember(@RequestBody User[] input, @PathVariable Long idMeeting) {
+    public void addMember(@RequestBody User input, @PathVariable Long idMeeting) {
         meetingService.addMember(input, idMeeting);
     }
 }

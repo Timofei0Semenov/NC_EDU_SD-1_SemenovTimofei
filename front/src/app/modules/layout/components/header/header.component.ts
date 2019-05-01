@@ -25,7 +25,6 @@ export class HeaderComponent implements OnInit {
 
   goHome() {
     this.router.navigateByUrl('/home');
-    console.log(window.localStorage.getItem('token'));
   }
 
   logout() {

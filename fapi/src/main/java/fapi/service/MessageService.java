@@ -16,4 +16,6 @@ public interface MessageService {
     void deleteMessage(Long id);
 
     List<Message> findAllByReceiver(String login);
+
+    void saveAnyMessages (Message[] messages);
 }

@@ -15,7 +15,6 @@ import {MessageService} from '../../../services/message.service';
 export class MessageComponent implements OnInit {
   user: User;
   messages: Message[] = [];
-  usersForEvents: User[] = [];
 
   constructor(private authService: AuthService, private router: Router, private userService: UserService,
               private messageService: MessageService, private meetingService: MeetingService) {
@@ -37,8 +36,7 @@ export class MessageComponent implements OnInit {
     if (message.target == 'friend') {
       this.userService.addFriend(this.user, message.sender.login).subscribe();
     } else {
-      this.usersForEvents.push(this.user);
-      this.meetingService.addMember(this.usersForEvents, message.meeting.idMeeting).subscribe();
+      this.meetingService.addMember(this.user, message.meeting.idMeeting).subscribe();
     }
     this.messageService.deleteMessage(message.idMessage).subscribe(result => {
       this.messages.splice(this.messages.indexOf(message), 1);

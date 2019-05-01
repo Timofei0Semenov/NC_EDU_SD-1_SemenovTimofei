@@ -10,7 +10,7 @@ import {
   MatIconModule,
   MatInputModule, MatListModule,
   MatMenuModule,
-  MatProgressSpinnerModule,
+  MatProgressSpinnerModule, MatSlideToggleModule,
   MatTableModule,
   MatToolbarModule,
 } from '@angular/material';
@@ -37,6 +37,7 @@ import {
     MatDialogModule,
     MatAutocompleteModule,
     MatListModule,
+    MatSlideToggleModule,
     MatTableModule,
     MatMenuModule,
     MatBadgeModule,

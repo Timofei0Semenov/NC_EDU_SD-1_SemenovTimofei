@@ -15,15 +15,19 @@ import {MessageComponent} from '../message/components/message.component';
 import {FriendsComponent} from '../user/components/friends/friends.component';
 import {AddFriendComponent} from '../user/components/add-friend/add-friend.component';
 import {ContinueSessionComponent} from '../authorization/continueSession/continue-session.component';
+import {ShowMeetingComponent} from '../meeting/components/show-meeting/show-meeting.component';
+import {FriendCalendarComponent} from './components/friendCalendar/friend-calendar.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     CalendarComponent,
     AddNewEventComponent,
+    ShowMeetingComponent,
     HeaderComponent,
     MessageComponent,
     FriendsComponent,
+    FriendCalendarComponent,
     AddFriendComponent,
     ContinueSessionComponent
   ],
@@ -41,7 +45,7 @@ import {ContinueSessionComponent} from '../authorization/continueSession/continu
     })
   ],
   providers: [],
-  entryComponents: [AddNewEventComponent, AddFriendComponent, ContinueSessionComponent],
+  entryComponents: [AddNewEventComponent, AddFriendComponent, ContinueSessionComponent, ShowMeetingComponent],
   exports: [HomeComponent, CalendarComponent]
 })
 export class LayoutModule {

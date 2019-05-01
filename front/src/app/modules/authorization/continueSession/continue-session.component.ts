@@ -16,10 +16,7 @@ export class ContinueSessionComponent implements OnInit {
   }
 
   accept() {
-    const body = new HttpParams()
-      .set('grant_type', 'refresh_token')
-      .set('refresh_token', JSON.parse(window.localStorage.getItem('token')).refresh_token);
-    this.authService.refreshToken(body.toString()).subscribe(data =>
+    this.authService.refreshToken().subscribe(data =>
       window.localStorage.setItem('token', JSON.stringify(data))
     );
   }

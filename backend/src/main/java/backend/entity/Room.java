@@ -1,8 +1,6 @@
 package backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -11,8 +9,6 @@ import java.util.List;
 
 @Data
 @Entity
-@JsonIdentityInfo(scope = Room.class, generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "idRoom")
 @Table(name = "rooms", schema = "backend")
 public class Room {
 
@@ -50,6 +46,6 @@ public class Room {
     private int room;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY )
     private List<Meeting> meetings = new ArrayList<>();
 }

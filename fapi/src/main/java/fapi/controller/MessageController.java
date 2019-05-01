@@ -44,4 +44,9 @@ public class MessageController {
     public ResponseEntity<List<Message>> getMessageByReceiver(@PathVariable(name = "login") String login) {
         return ResponseEntity.ok(messageService.findAllByReceiver(login));
     }
+
+    @PostMapping(value = "/any")
+    public void saveAnyMessages(@RequestBody Message[] messages) {
+        messageService.saveAnyMessages(messages);
+    }
 }

@@ -1,0 +1,23 @@
+<h2 mat-dialog-title>Meeting information</h2>
+<mat-dialog-content class="mat-typography">
+  <h2>Title</h2>
+  <h3>{{meeting.title}}</h3>
+  <h2>Owner</h2>
+  <h3>{{meeting.owner.firstName}} {{meeting.owner.lastName}}</h3>
+  <h2>Room</h2>
+  <h3>{{meeting.room.name}}</h3>
+  <div>
+    <div class="inline" style="margin-left: 0px">
+      <h2>Starts at</h2>
+      <h3>{{meeting.start | date: 'MMMM d, y, h:mm'}}</h3>
+    </div>
+    <div class="inline">
+      <h2>Ends at</h2>
+      <h3>{{meeting.end | date: 'MMMM d, y, h:mm'}}</h3>
+    </div>
+  </div>
+  <button mat-button (click)="showMembers()">Members</button>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

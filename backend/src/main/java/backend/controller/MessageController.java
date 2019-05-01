@@ -2,7 +2,6 @@ package backend.controller;
 
 import backend.entity.Message;
 import backend.entity.User;
-import backend.service.MeetingService;
 import backend.service.MessageService;
 import backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,4 +59,10 @@ public class MessageController {
         return ResponseEntity.ok(messages);
     }
 
+    @PostMapping(value = "/any")
+    public void saveAnyMessages(@RequestBody Message[] messages) {
+        for (Message message : messages) {
+            messageService.saveMessage(message);
+        }
+    }
 }

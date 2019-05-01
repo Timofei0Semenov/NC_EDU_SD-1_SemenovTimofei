@@ -2,8 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthService} from '../../../services/auth.service';
-import {UserService} from '../../../services/user.service';
 import {User} from '../../user/models/user';
+import {MatDialog} from '@angular/material';
 
 @Component({
   selector: 'app-login',
@@ -15,9 +15,10 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   user: User;
   hide = true;
+  checked = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
-              private authService: AuthService, private userService: UserService) {
+              private authService: AuthService, private dialog: MatDialog) {
   }
 
   createForm() {
@@ -48,7 +49,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.logout();
+    if (this.authService.isAuthorized()) {
+      this.router.navigateByUrl('/home');
+    }
+    this.dialog.closeAll();
     this.createForm();
   }
 
@@ -56,8 +60,8 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.invalid) {
       return;
     }
-
-    this.authService.login(this.loginForm.get('usernameFormControl').value, this.loginForm.get('passwordFormControl').value);
+    this.authService.login(this.loginForm.get('usernameFormControl').value,
+      this.loginForm.get('passwordFormControl').value, this.checked);
     /*const body = new HttpParams()
       .set('username', this.loginForm.get('usernameFormControl').value)
       .set('password', this.loginForm.get('passwordFormControl').value)

@@ -41,7 +41,7 @@ export class MeetingService {
     return this.http.get<Meeting[]>('/api/meetings/byOwner/' + login);
   }
 
-  addMember(users: User[], idMeeting: string) {
-    return this.http.post('api/meetings/addMember/' + idMeeting, users);
+  addMember(user: User, idMeeting: string) {
+    return this.http.post('api/meetings/addMember/' + idMeeting, user);
   }
 }

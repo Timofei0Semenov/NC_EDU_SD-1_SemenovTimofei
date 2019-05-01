@@ -48,4 +48,10 @@ public class MessageServiceImpl implements MessageService {
         Message[] response = restTemplate.getForObject(backendServerUrl + "messages/byReceiver/" + login, Message[].class);
         return response == null ? Collections.emptyList() : Arrays.asList(response);
     }
+
+    @Override
+    public void saveAnyMessages(Message[] messages) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(backendServerUrl + "messages/any", messages, Message[].class);
+    }
 }

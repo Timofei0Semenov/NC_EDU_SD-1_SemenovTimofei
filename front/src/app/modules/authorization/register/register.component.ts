@@ -92,8 +92,15 @@ export class RegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.authService.logout();
-    this.createForm();
+    if (this.authService.isAuthorized()) {
+      this.router.navigateByUrl('/home');
+    }
+    if (JSON.parse(window.localStorage.getItem('rememberMe'))) {
+      this.authService.refreshToken().subscribe(data =>
+        window.localStorage.setItem('token', JSON.stringify(data))
+      );
+      this.router.navigateByUrl('/home');
+    }    this.createForm();
   }
 
   register() {
@@ -108,7 +115,7 @@ export class RegisterComponent implements OnInit {
 
     this.userService.createUser(this.user).subscribe(login => {
       this.authService.login(this.userRegistrationGroup.get('loginFormControl').value,
-        this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value);
+        this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value, false);
     });
   }
 

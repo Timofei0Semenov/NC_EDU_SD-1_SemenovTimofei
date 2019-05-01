@@ -5,6 +5,8 @@ import {Room} from '../../../room/models/room';
 import {RoomService} from '../../../../services/room.service';
 import {Meeting} from '../../models/meeting';
 import {MeetingService} from '../../../../services/meeting.service';
+import {MessageService} from '../../../../services/message.service';
+import {Message} from '../../../message/model/message';
 
 @Component({
   selector: 'app-add-new-event',
@@ -23,8 +25,10 @@ export class AddNewEventComponent implements OnInit {
   room: Room;
   allRooms: Room[] = [];
   newMeeting: Meeting;
+  messages: Message[] = [];
 
-  constructor(private userService: UserService, private roomService: RoomService, private meetingService: MeetingService) {
+  constructor(private userService: UserService, private roomService: RoomService, private meetingService: MeetingService,
+              private messageService: MessageService) {
   }
 
   ngOnInit() {
@@ -42,10 +46,13 @@ export class AddNewEventComponent implements OnInit {
   }
 
   createMeeting(): void {
-    this.members.push(this.user);
     this.newMeeting = new Meeting(null, this.title, this.start, this.end, this.room, this.user);
     this.meetingService.saveMeeting(this.newMeeting).subscribe(data => {
-      this.meetingService.addMember(this.members, data.idMeeting).subscribe();
+      this.members.forEach( item => {
+          this.messages.push(new Message(null, this.user, item, data, 'meeting'));
+        }
+      );
+      this.messageService.saveAnyMessages(this.messages).subscribe();
     });
   }
 }

@@ -20,5 +20,5 @@ public interface MeetingService {
 
     List<Meeting> findAllByOwner(String login);
 
-    void addMember(User[] input, Long idMeeting);
+    void addMember(User input, Long idMeeting);
 }

@@ -58,7 +58,7 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
-    public void addMember(User[] input, Long idMeeting) {
+    public void addMember(User input, Long idMeeting) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForEntity(backendServerUrl + "meetings/addMember/" + idMeeting, input, Meeting.class);
     }

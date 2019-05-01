@@ -24,10 +24,14 @@ export class MessageService {
   }
 
   getById(idMessage: string): Observable<Message> {
-    return this.http.get<Message>('/api/messages/' + idMessage);
+    return this.http.get<Message>('/api/messages/id/' + idMessage);
   }
 
   getByReceiver(login: string): Observable<Message[]> {
     return this.http.get<Message[]>('/api/messages/byReceiver/' + login);
+  }
+
+  saveAnyMessages(messages: Message[]) {
+    return this.http.post('/api/messages/any', messages);
   }
 }

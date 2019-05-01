@@ -19,24 +19,28 @@ export class AuthService {
     return this.http.post('http://localhost:8081/oauth/token', loginPayload, {headers});
   }
 
-  refreshToken(loginPayload) {
+  refreshToken() {
+    const body = new HttpParams()
+      .set('grant_type', 'refresh_token')
+      .set('refresh_token', JSON.parse(window.localStorage.getItem('token')).refresh_token);
     const headers = {
       'Authorization': 'Basic ' + btoa('frontend-client:frontend-secret'),
       'Content-type': 'application/x-www-form-urlencoded'
     }
-    return this.http.post('http://localhost:8081/oauth/token', loginPayload, {headers});
+    return this.http.post('http://localhost:8081/oauth/token', body.toString(), {headers});
   }
 
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('rememberMe');
   }
 
   isAuthorized() {
     return JSON.parse(window.localStorage.getItem('currentUser')) != null;
   }
 
-  login(username: string, password: string) {
+  login(username: string, password: string, rememberMe: boolean) {
     const body = new HttpParams()
       .set('username', username)
       .set('password', password)
@@ -50,6 +54,9 @@ export class AuthService {
             new User(data2.idUser, data2.firstName, data2.lastName, data2.login, data2.role, data2.email, data2.password);
           window.localStorage.setItem('currentUser', JSON.stringify(this.user));
           if (this.isAuthorized()) {
+            if (rememberMe) {
+              window.localStorage.setItem('rememberMe', JSON.stringify(true));
+            }
             this.router.navigateByUrl('/home');
           }
         });

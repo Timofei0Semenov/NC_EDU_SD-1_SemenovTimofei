@@ -28,7 +28,7 @@ export class AddFriendComponent implements OnInit {
       this.allUsers = data.map(item => {
         return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
       });
-      this.allUsers.splice(this.allUsers.indexOf(this.user), 1);
+      this.allUsers.splice(this.allUsers.findIndex(x => x.idUser === this.user.idUser), 1);
     });
   }
 
