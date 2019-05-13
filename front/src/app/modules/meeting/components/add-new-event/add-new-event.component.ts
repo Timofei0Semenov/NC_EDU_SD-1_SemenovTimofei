@@ -46,7 +46,7 @@ export class AddNewEventComponent implements OnInit {
   }
 
   createMeeting(): void {
-    this.newMeeting = new Meeting(null, this.title, this.start, this.end, this.room, this.user);
+    this.newMeeting = new Meeting(null, this.title, this.start, this.end, this.room, this.user, null);
     this.meetingService.saveMeeting(this.newMeeting).subscribe(data => {
       this.members.forEach( item => {
           this.messages.push(new Message(null, this.user, item, data, 'meeting'));

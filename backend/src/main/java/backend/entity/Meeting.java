@@ -59,4 +59,18 @@ public class Meeting {
             joinColumns = @JoinColumn(name = "id_meeting"),
             inverseJoinColumns = @JoinColumn(name = "id_user"))
     private Set<User> members = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "potential_members", schema = "backend",
+            joinColumns = @JoinColumn(name = "id_meeting"),
+            inverseJoinColumns = @JoinColumn(name = "id_user"))
+    private Set<User> potentialMembers = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "no_members", schema = "backend",
+            joinColumns = @JoinColumn(name = "id_meeting"),
+            inverseJoinColumns = @JoinColumn(name = "id_user"))
+    private Set<User> noMembers = new HashSet<>();
 }

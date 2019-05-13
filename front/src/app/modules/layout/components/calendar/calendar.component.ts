@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {CalendarDateFormatter, CalendarView} from 'angular-calendar';
+import {CalendarDateFormatter, CalendarEventAction, CalendarView} from 'angular-calendar';
 import {isSameDay, isSameMonth} from 'date-fns';
 import 'rxjs/add/operator/map';
 import {User} from '../../../user/models/user';
@@ -12,6 +12,22 @@ import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {AddNewEventComponent} from '../../../meeting/components/add-new-event/add-new-event.component';
 import {ShowMeetingComponent} from '../../../meeting/components/show-meeting/show-meeting.component';
+import {MeetingAlarmComponent} from '../../../notification/components/meetingAlarm/meetingAlarm.component';
+
+const colors: any = {
+  red: {
+    primary: '#ad2121',
+    secondary: '#FAE3E3'
+  },
+  blue: {
+    primary: '#1e90ff',
+    secondary: '#D1E8FF'
+  },
+  yellow: {
+    primary: '#e3bc08',
+    secondary: '#FDF1BA'
+  }
+};
 
 @Component({
   selector: 'app-calendar',
@@ -32,6 +48,12 @@ export class CalendarComponent implements OnInit {
   activeDayIsOpen: boolean = false;
   events: Meeting[] = [];
   user: User;
+  actions: CalendarEventAction[] = [{
+    label: '<i class="material-icons mat-icon">add_alarm</i>',
+    onClick: ({event}: { event: Meeting }): void => {
+      this.dialog.open(MeetingAlarmComponent, {width: '30%', data: event});
+    }
+  }];
 
   constructor(private authService: AuthService, private userService: UserService, private meetingsService: MeetingService,
               private router: Router, private dialog: MatDialog) {
@@ -41,16 +63,28 @@ export class CalendarComponent implements OnInit {
     if (!this.authService.isAuthorized()) {
       this.router.navigateByUrl('/login');
     }
-    this.user = JSON.parse(window.localStorage.getItem('currentUser'));
-    this.meetingsService.getByMember(this.user.login).subscribe(data => {
-      this.events = data.map(item => {
-        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner);
-      });
-    });
+
+    this.initUser();
   }
+
 
   closeOpenMonthViewDay() {
     this.activeDayIsOpen = false;
+  }
+
+  initUser() {
+    this.user = JSON.parse(window.localStorage.getItem('currentUser'));
+
+    this.meetingsService.getByMember(this.user.login).subscribe(data => {
+      this.events = data.map(item => {
+        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions);
+      });
+    });
+    this.meetingsService.getByPotentialMember(this.user.login).subscribe(data => {
+      this.events = this.events.concat(data.map(item => {
+        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions, colors.yellow);
+      }));
+    });
   }
 
   dayClicked({date, events}: { date: Date; events: Meeting[] }): void {

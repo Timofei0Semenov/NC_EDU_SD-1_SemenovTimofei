@@ -2,14 +2,12 @@ package fapi.service.impl;
 
 import fapi.models.User;
 import fapi.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -74,6 +72,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         User[] response = restTemplate.getForObject(backendServerUrl + "users/byMeeting/" + idMeeting, User[].class);
         return response == null ? Collections.emptyList() : Arrays.asList(response);
     }
+
+    @Override
+    public List<User> findAllByPotentialMeeting(Long idMeeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] response = restTemplate.getForObject(backendServerUrl + "users/byPotentialMeeting/" + idMeeting, User[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);    }
+
+    @Override
+    public List<User> findAllByNoMeeting(Long idMeeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] response = restTemplate.getForObject(backendServerUrl + "users/byNoMeeting/" + idMeeting, User[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);    }
 
     @Override
     public void updateUser(User user) {

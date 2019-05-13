@@ -4,6 +4,7 @@ import {User} from '../../../user/models/user';
 import {Router} from '@angular/router';
 import {MatDialog} from '@angular/material';
 import {AddFriendComponent} from '../../../user/components/add-friend/add-friend.component';
+import {SimpleAlarmComponent} from '../../../notification/components/simpleAlarm/simpleAlarm.component';
 
 @Component({
   selector: 'app-header',
@@ -34,5 +35,9 @@ export class HeaderComponent implements OnInit {
 
   addFriends() {
     this.dialog.open(AddFriendComponent, {width: '30%'});
+  }
+
+  addAlarm() {
+    this.dialog.open(SimpleAlarmComponent, {width: '30%', data: this.user});
   }
 }

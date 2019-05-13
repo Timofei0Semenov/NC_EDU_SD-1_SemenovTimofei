@@ -42,6 +42,14 @@ export class UserService {
     return this.http.get<User[]>('/api/users/byMeeting/' + idMeeting);
   }
 
+  getUsersByPotentialMeeting(idMeeting: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/byPotentialMeeting/' + idMeeting);
+  }
+
+  getUsersByNoMeeting(idMeeting: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/byNoMeeting/' + idMeeting);
+  }
+
   updateUser(user: User) {
     return this.http.put('/api/users', user);
   }

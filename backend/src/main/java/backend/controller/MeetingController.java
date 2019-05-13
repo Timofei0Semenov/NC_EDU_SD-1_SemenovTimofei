@@ -64,6 +64,15 @@ public class MeetingController {
         return ResponseEntity.ok(meetings);
     }
 
+    @GetMapping(value = "/byPotentialMember/{login}")
+    public ResponseEntity<List<Meeting>> getAllByPotentialMember(@PathVariable(name = "login") String login) {
+        Optional<User> user = userService.findByLogin(login);
+        if (!user.isPresent()) return ResponseEntity.badRequest().build();
+        List<Meeting> potentialMeetings = new ArrayList<>();
+        potentialMeetings = meetingService.findAllByPotentialMember(user.get());
+        return ResponseEntity.ok(potentialMeetings);
+    }
+
     @GetMapping(value = "/byOwner/{login}")
     public ResponseEntity<List<Meeting>> getAllByOwner(@PathVariable(name = "login") String login) {
         Optional<User> user = userService.findByLogin(login);
@@ -81,6 +90,28 @@ public class MeetingController {
         if (!user.isPresent()) return ResponseEntity.badRequest().build();
         meeting.get().getMembers().add(user.get());
         meetingService.saveMeeting(meeting.get());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/addPotentialMember/{idMeeting}")
+    public ResponseEntity addPotentialMember(@RequestBody User input, @PathVariable Long idMeeting) {
+        Optional<Meeting> potentialMeeting = meetingService.findMeetingById(idMeeting);
+        if (!potentialMeeting.isPresent()) return ResponseEntity.badRequest().build();
+        Optional<User> user = userService.findByLogin(input.getLogin());
+        if (!user.isPresent()) return ResponseEntity.badRequest().build();
+        potentialMeeting.get().getPotentialMembers().add(user.get());
+        meetingService.saveMeeting(potentialMeeting.get());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(value = "/addNoMember/{idMeeting}")
+    public ResponseEntity addNoMember(@RequestBody User input, @PathVariable Long idMeeting) {
+        Optional<Meeting> noMeeting = meetingService.findMeetingById(idMeeting);
+        if (!noMeeting.isPresent()) return ResponseEntity.badRequest().build();
+        Optional<User> user = userService.findByLogin(input.getLogin());
+        if (!user.isPresent()) return ResponseEntity.badRequest().build();
+        noMeeting.get().getNoMembers().add(user.get());
+        meetingService.saveMeeting(noMeeting.get());
         return ResponseEntity.ok().build();
     }
 

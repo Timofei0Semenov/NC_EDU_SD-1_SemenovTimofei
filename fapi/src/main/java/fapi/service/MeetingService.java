@@ -18,7 +18,14 @@ public interface MeetingService {
 
     List<Meeting> findAllByMember(String login);
 
+    List<Meeting> findAllByPotentialMember(String login);
+
     List<Meeting> findAllByOwner(String login);
 
     void addMember(User input, Long idMeeting);
+
+    void addPotentialMember(User input, Long idMeeting);
+
+    void addNoMember(User input, Long idMeeting);
+
 }

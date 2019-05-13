@@ -12,6 +12,11 @@
     <button mat-button (click)="reject(message); $event.stopPropagation();" color="warn">
       <mat-icon>clear</mat-icon>
     </button>
+    <ng-template [ngIf]="message.target == 'meeting'">
+      <button mat-button (click)="maybe(message); $event.stopPropagation();">
+        50/50
+      </button>
+    </ng-template>
     <button mat-button (click)="accept(message); $event.stopPropagation();" color="success">
       <mat-icon>check</mat-icon>
     </button>

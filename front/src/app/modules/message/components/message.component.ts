@@ -44,6 +44,16 @@ export class MessageComponent implements OnInit {
   }
 
   reject(message: Message) {
+    if (message.target == 'meeting') {
+      this.meetingService.addNoMember(this.user, message.meeting.idMeeting).subscribe();
+    }
+    this.messageService.deleteMessage(message.idMessage).subscribe(data => {
+      this.messages.splice(this.messages.indexOf(message), 1);
+    });
+  }
+
+  maybe(message: Message) {
+    this.meetingService.addPotentialMember(this.user, message.meeting.idMeeting).subscribe();
     this.messageService.deleteMessage(message.idMessage).subscribe(data => {
       this.messages.splice(this.messages.indexOf(message), 1);
     });

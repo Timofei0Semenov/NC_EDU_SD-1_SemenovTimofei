@@ -32,4 +32,5 @@ public class Meeting {
 
     @NotNull
     private Room room;
+
 }

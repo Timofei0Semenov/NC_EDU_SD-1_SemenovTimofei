@@ -37,11 +37,23 @@ export class MeetingService {
     return this.http.get<Meeting[]>('/api/meetings/byMember/' + login);
   }
 
+  getByPotentialMember(login: string): Observable<Meeting[]> {
+    return this.http.get<Meeting[]>('/api/meetings/byPotentialMember/' + login);
+  }
+
   getByOwner(login: string): Observable<Meeting[]> {
     return this.http.get<Meeting[]>('/api/meetings/byOwner/' + login);
   }
 
   addMember(user: User, idMeeting: string) {
     return this.http.post('api/meetings/addMember/' + idMeeting, user);
+  }
+
+  addPotentialMember(user: User, idMeeting: string) {
+    return this.http.post('api/meetings/addPotentialMember/' + idMeeting, user);
+  }
+
+  addNoMember(user: User, idMeeting: string) {
+    return this.http.post('api/meetings/addNoMember/' + idMeeting, user);
   }
 }

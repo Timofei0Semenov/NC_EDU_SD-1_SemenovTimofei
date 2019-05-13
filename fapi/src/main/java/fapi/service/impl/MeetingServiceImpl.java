@@ -4,7 +4,6 @@ import fapi.models.Meeting;
 import fapi.models.User;
 import fapi.service.MeetingService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -51,6 +50,13 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     @Override
+    public List<Meeting> findAllByPotentialMember(String login) {
+        RestTemplate restTemplate = new RestTemplate();
+        Meeting[] response = restTemplate.getForObject(backendServerUrl + "meetings/byPotentialMember/" + login, Meeting[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
+
+    @Override
     public List<Meeting> findAllByOwner(String login) {
         RestTemplate restTemplate = new RestTemplate();
         Meeting[] response = restTemplate.getForObject(backendServerUrl + "meetings/byOwner/" + login, Meeting[].class);
@@ -61,5 +67,17 @@ public class MeetingServiceImpl implements MeetingService {
     public void addMember(User input, Long idMeeting) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForEntity(backendServerUrl + "meetings/addMember/" + idMeeting, input, Meeting.class);
+    }
+
+    @Override
+    public void addPotentialMember(User input, Long idMeeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(backendServerUrl + "meetings/addPotentialMember/" + idMeeting, input, Meeting.class);
+    }
+
+    @Override
+    public void addNoMember(User input, Long idMeeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.postForEntity(backendServerUrl + "meetings/addNoMember/" + idMeeting, input, Meeting.class);
     }
 }

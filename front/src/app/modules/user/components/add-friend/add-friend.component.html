@@ -1,13 +1,29 @@
 <h2 mat-dialog-title>Find your new friends</h2>
 <mat-dialog-content class="mat-typography">
-  <mat-list>
-    <mat-list-item *ngFor="let user of allUsers">
-      <p mat-line> {{user.firstName}} {{user.lastName}}</p>
-      <button mat-button align="end" (click)="addToFriend(user)">
-        <mat-icon>group_add</mat-icon>
-      </button>
-    </mat-list-item>
-  </mat-list>
+  <mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="oneUser">
+      <mat-header-cell *matHeaderCellDef>
+        <input matInput type="text" placeholder="Find new friend"
+               (keyup)="doFilter($event.target.value)">
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        {{user.firstName}} {{user.lastName}}
+        {{heu}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="button">
+      <mat-header-cell *matHeaderCellDef></mat-header-cell>
+      <mat-cell *matCellDef="let user" style="display: flex; justify-content: flex-end;">
+        <button mat-button (click)="addToFriend(user)">
+          <mat-icon>group_add</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

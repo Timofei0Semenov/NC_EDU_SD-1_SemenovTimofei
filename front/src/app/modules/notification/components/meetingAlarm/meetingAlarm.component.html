@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Notification about {{meeting.title}}</h2>
+<mat-dialog-content class="mat-typography">
+  <div>
+    <h3>Message of notification</h3>
+    <input
+      type="text" class="form-control" [(ngModel)]="text" placeholder="Input text"/>
+  </div>
+  <div>
+    <h3>Remind in</h3>
+    <mat-form-field>
+      <mat-label>Remind time</mat-label>
+      <mat-select [(value)] = delay>
+        <mat-option value="5">5 minute</mat-option>
+        <mat-option value="10">10 minute</mat-option>
+        <mat-option value="15">15 minute</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial
+          (click)="createNotification()">Create
+  </button>
+</mat-dialog-actions>

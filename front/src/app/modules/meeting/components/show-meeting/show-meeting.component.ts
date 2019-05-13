@@ -10,23 +10,24 @@ import {User} from '../../../user/models/user';
   styleUrls: ['./show-meeting.component.css']
 })
 export class ShowMeetingComponent implements OnInit {
-  members: User[] = [];
 
   constructor(@Inject(MAT_DIALOG_DATA) public meeting: Meeting, private userService: UserService,
               private dialog: MatDialog) {
   }
 
   ngOnInit() {
-    this.userService.getUsersByMeeting(this.meeting.idMeeting).subscribe(data => {
-      this.members = data.map(item => {
-        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
-      });
-    });
   }
 
   showMembers() {
-    this.dialog.open(MembersDialogComponent, {width: '15%', data: this.members})
-    ;
+    this.dialog.open(MembersDialogComponent, {width: '15%', data: this.meeting.idMeeting});
+  }
+
+  showPotentialMembers() {
+    this.dialog.open(PotentialMembersDialogComponent, {width: '15%', data: this.meeting.idMeeting});
+  }
+
+  showNoMembers() {
+    this.dialog.open(NoMembersDialogComponent, {width: '15%', data: this.meeting.idMeeting});
   }
 }
 
@@ -34,9 +35,55 @@ export class ShowMeetingComponent implements OnInit {
   selector: 'members-dialog',
   templateUrl: 'members-dialog.html',
 })
-export class MembersDialogComponent {
+export class MembersDialogComponent implements OnInit {
+  members: User[] = [];
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public members: User[]) {
+  constructor(@Inject(MAT_DIALOG_DATA) public idMeeting: string, private userService: UserService) {
+  }
+
+  ngOnInit() {
+    this.userService.getUsersByMeeting(this.idMeeting).subscribe(data => {
+      this.members = data.map(item => {
+        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
+      });
+    });
+  }
+}
+
+@Component({
+  selector: 'potential-members-dialog',
+  templateUrl: 'potentialMembers-dialog.html',
+})
+export class PotentialMembersDialogComponent implements OnInit {
+  potentialMembers: User[] = [];
+
+  constructor(@Inject(MAT_DIALOG_DATA) public idMeeting: string, private userService: UserService) {
+  }
+
+  ngOnInit() {
+    this.userService.getUsersByPotentialMeeting(this.idMeeting).subscribe(data => {
+      this.potentialMembers = data.map(item => {
+        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
+      });
+    });
+  }
+}
+
+@Component({
+  selector: 'no-members-dialog',
+  templateUrl: 'noMembers-dialog.html',
+})
+export class NoMembersDialogComponent implements OnInit {
+  noMembers: User[] = [];
+
+  constructor(@Inject(MAT_DIALOG_DATA) public idMeeting: string, private userService: UserService) {
+  }
+
+  ngOnInit() {
+    this.userService.getUsersByNoMeeting(this.idMeeting).subscribe(data => {
+      this.noMembers = data.map(item => {
+        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
+      });
+    });
   }
 }

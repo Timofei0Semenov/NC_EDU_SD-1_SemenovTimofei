@@ -16,12 +16,11 @@ public class UserController {
 
     private UserService userService;
 
-    @Autowired
     private BCryptPasswordEncoder encoder;
 
-    @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, BCryptPasswordEncoder encoder) {
         this.userService = userService;
+        this.encoder = encoder;
     }
 
     @GetMapping(value = "/all")
@@ -53,6 +52,16 @@ public class UserController {
     @GetMapping(value = "/byMeeting/{idMeeting}")
     public ResponseEntity<List<User>> getUsersByMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
         return ResponseEntity.ok(userService.findAllByMeeting(idMeeting));
+    }
+
+    @GetMapping(value = "/byPotentialMeeting/{idMeeting}")
+    public ResponseEntity<List<User>> getUsersByPotentialMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        return ResponseEntity.ok(userService.findAllByPotentialMeeting(idMeeting));
+    }
+
+    @GetMapping(value = "/byNoMeeting/{idMeeting}")
+    public ResponseEntity<List<User>> getUsersByNoMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        return ResponseEntity.ok(userService.findAllByNoMeeting(idMeeting));
     }
 
     @PutMapping

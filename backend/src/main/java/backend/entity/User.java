@@ -64,6 +64,14 @@ public class User {
     private List<Meeting> meetings = new ArrayList<>();
 
     @JsonIgnore
+    @ManyToMany(mappedBy = "potentialMembers")
+    private List<Meeting> potentialMeetings = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "noMembers")
+    private List<Meeting> noMeetings = new ArrayList<>();
+
+    @JsonIgnore
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)
     private List<Meeting> meetingsCreatedMe = new ArrayList<>();
 

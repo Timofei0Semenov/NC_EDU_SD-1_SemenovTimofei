@@ -70,6 +70,19 @@ public class UserController {
         return ResponseEntity.ok(userService.findAllByMeeting(meeting.get()));
     }
 
+
+    @GetMapping(value = "/byPotentialMeeting/{idMeeting}")
+    public ResponseEntity<List<User>> getUsersByPotentialMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        Optional<Meeting> potentialMeeting = meetingService.findMeetingById(idMeeting);
+        return ResponseEntity.ok(userService.findAllByPotentialMeetings(potentialMeeting.get()));
+    }
+
+    @GetMapping(value = "/byNoMeeting/{idMeeting}")
+    public ResponseEntity<List<User>> getUsersByNoMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        Optional<Meeting> noMeeting = meetingService.findMeetingById(idMeeting);
+        return ResponseEntity.ok(userService.findAllByNoMeetings(noMeeting.get()));
+    }
+
     @PutMapping
     public ResponseEntity<User> updateUser(@RequestBody User user) {
         Optional<User> updateUser = userService.findUserById(user.getIdUser());
@@ -88,7 +101,7 @@ public class UserController {
     }
 
     @PostMapping(value = "/addFriend/{login}")
-    public ResponseEntity addMember(@RequestBody User input, @PathVariable String login) {
+    public ResponseEntity addFriend(@RequestBody User input, @PathVariable String login) {
         Optional<User> user = userService.findUserById(input.getIdUser());
         if (!user.isPresent()) return ResponseEntity.notFound().build();
         Optional<User> friend = userService.findByLogin(login);

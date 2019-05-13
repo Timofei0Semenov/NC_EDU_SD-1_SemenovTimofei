@@ -37,7 +37,7 @@ export class FriendCalendarComponent implements OnInit {
   ngOnInit() {
     this.meetingsService.getByMember(this.login).subscribe(data => {
       this.events = data.map(item => {
-        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner);
+        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, null);
       });
     });
   }

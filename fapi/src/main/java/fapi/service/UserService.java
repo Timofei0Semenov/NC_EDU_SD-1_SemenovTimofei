@@ -18,6 +18,10 @@ public interface UserService {
 
     List<User> findAllByMeeting(Long idMeeting);
 
+    List<User> findAllByPotentialMeeting(Long idMeeting);
+
+    List<User> findAllByNoMeeting(Long idMeeting);
+
     List<User> findByFriendsContains(Long id);
 
     void updateUser(User user);

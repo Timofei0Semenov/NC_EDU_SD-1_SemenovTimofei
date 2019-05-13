@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>Create notification</h2>
+<mat-dialog-content class="mat-typography">
+  <div>
+    <h3>Message of notification</h3>
+    <input
+      type="text" class="form-control" [(ngModel)]="text" placeholder="Input text"/>
+  </div>
+  <div style="padding-top: 7px">
+    <h3>Notification time</h3>
+    <input
+      class="form-control"
+      type="text"
+      mwlFlatpickr
+      [(ngModel)]="alarmTime"
+      [altInput]="true"
+      [convertModelValue]="true"
+      [enableTime]="true"
+      dateFormat="Y-m-dTH:i"
+      altFormat="F j, Y H:i"
+      [time24hr]="true"
+      [minDate]="today"
+      placeholder="Choose date"
+    />
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial
+          (click)="createNotification()">Create
+  </button>
+</mat-dialog-actions>

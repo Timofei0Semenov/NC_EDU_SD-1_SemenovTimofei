@@ -45,4 +45,9 @@ public class MeetingServiceImpl implements MeetingService {
     public List<Meeting> findAllByOwner(User user) {
         return meetingRepository.findAllByOwner(user);
     }
+
+    @Override
+    public List<Meeting> findAllByPotentialMember(User user) {
+        return meetingRepository.findAllByPotentialMembersContains(user);
+    }
 }

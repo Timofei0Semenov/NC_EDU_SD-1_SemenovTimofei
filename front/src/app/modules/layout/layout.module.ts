@@ -17,6 +17,8 @@ import {AddFriendComponent} from '../user/components/add-friend/add-friend.compo
 import {ContinueSessionComponent} from '../authorization/continueSession/continue-session.component';
 import {ShowMeetingComponent} from '../meeting/components/show-meeting/show-meeting.component';
 import {FriendCalendarComponent} from './components/friendCalendar/friend-calendar.component';
+import {SimpleAlarmComponent} from '../notification/components/simpleAlarm/simpleAlarm.component';
+import {MeetingAlarmComponent} from '../notification/components/meetingAlarm/meetingAlarm.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import {FriendCalendarComponent} from './components/friendCalendar/friend-calend
     FriendsComponent,
     FriendCalendarComponent,
     AddFriendComponent,
+    SimpleAlarmComponent,
+    MeetingAlarmComponent,
     ContinueSessionComponent
   ],
   imports: [
@@ -45,7 +49,8 @@ import {FriendCalendarComponent} from './components/friendCalendar/friend-calend
     })
   ],
   providers: [],
-  entryComponents: [AddNewEventComponent, AddFriendComponent, ContinueSessionComponent, ShowMeetingComponent],
+  entryComponents: [AddNewEventComponent, AddFriendComponent, ContinueSessionComponent, ShowMeetingComponent, SimpleAlarmComponent,
+    MeetingAlarmComponent],
   exports: [HomeComponent, CalendarComponent]
 })
 export class LayoutModule {
