@@ -8,6 +8,10 @@
       <mat-icon>add_alarm</mat-icon>
     </button>
     <span class="example-spacer"></span>
+    <button mat-button (click)="roomMenu()" *ngIf="this.user.role == 'admin'">
+      <mat-icon>meeting_room</mat-icon>
+    </button>
+    <span class="example-spacer"></span>
     <app-friends></app-friends>
     <button mat-button (click)="addFriends()"><mat-icon>person_add</mat-icon></button>
     <span class="example-spacer"></span>

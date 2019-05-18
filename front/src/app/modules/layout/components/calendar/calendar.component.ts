@@ -79,11 +79,11 @@ export class CalendarComponent implements OnInit {
       this.events = data.map(item => {
         return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions);
       });
-    });
-    this.meetingsService.getByPotentialMember(this.user.login).subscribe(data => {
-      this.events = this.events.concat(data.map(item => {
-        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions, colors.yellow);
-      }));
+      this.meetingsService.getByPotentialMember(this.user.login).subscribe(data => {
+        this.events = this.events.concat(data.map(item => {
+          return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions, colors.yellow);
+        }));
+      });
     });
   }
 
@@ -111,7 +111,13 @@ export class CalendarComponent implements OnInit {
   }
 
   clickAdd() {
-    this.dialog.open(AddNewEventComponent);
+    const dialogRef = this.dialog.open(AddNewEventComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if (result != null && result != '') {
+        this.events.push(new Meeting(result.idMeeting, result.title, result.start, result.end, result.room,
+          result.owner, this.actions));
+      }
+    });
   }
 }
 

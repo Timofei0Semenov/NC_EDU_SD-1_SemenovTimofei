@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,32 +19,14 @@ public class Room {
     private long idRoom;
 
     @Basic
+    @NotNull
     @Column(name = "name")
     private String name;
 
     @Basic
-    @Column(name = "city")
-    private String city;
-
-    @Basic
-    @Column(name = "street")
-    private String street;
-
-    @Basic
-    @Column(name = "house")
-    private int house;
-
-    @Basic
-    @Column(name = "building")
-    private int building;
-
-    @Basic
-    @Column(name = "flour")
-    private int flour;
-
-    @Basic
-    @Column(name = "room")
-    private int room;
+    @NotNull
+    @Column(name = "address")
+    private String address;
 
     @JsonIgnore
     @OneToMany(mappedBy = "room", fetch = FetchType.LAZY )

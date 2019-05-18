@@ -17,7 +17,6 @@ export class AddFriendComponent implements OnInit {
   allUsers: User[] = [];
   displayedColumns: string[] = ['oneUser', 'button'];
   dataSource;
-  heu = 'hui';
 
   constructor(private authService: AuthService, private router: Router, private userService: UserService,
               private messageService: MessageService) {
@@ -45,7 +44,6 @@ export class AddFriendComponent implements OnInit {
   }
 
   addToFriend(user: User) {
-    this.heu = 'vam';
     this.messageService.saveMessage(new Message(null, this.user, user, null, 'friend')).subscribe();
   }
 }

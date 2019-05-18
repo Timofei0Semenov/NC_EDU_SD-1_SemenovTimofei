@@ -20,6 +20,19 @@ export class RegisterComponent implements OnInit {
               private userService: UserService, private authService: AuthService) {
   }
 
+  ngOnInit() {
+    if (this.authService.isAuthorized()) {
+      this.router.navigateByUrl('/home');
+    }
+    if (JSON.parse(window.localStorage.getItem('rememberMe'))) {
+      this.authService.refreshToken().subscribe(data =>
+        window.localStorage.setItem('token', JSON.stringify(data))
+      );
+      this.router.navigateByUrl('/home');
+    }
+    this.createForm();
+  }
+
   createForm() {
     this.userRegistrationGroup = this.formBuilder.group({
       firstNameFormControl: ['', [
@@ -89,18 +102,6 @@ export class RegisterComponent implements OnInit {
   getConfirmErrorMessage() {
     return this.userRegistrationGroup.get('passwordGroup').get('confirmPasswordFormControl').hasError('mustMatch') ?
       'Passwords are different' : '';
-  }
-
-  ngOnInit() {
-    if (this.authService.isAuthorized()) {
-      this.router.navigateByUrl('/home');
-    }
-    if (JSON.parse(window.localStorage.getItem('rememberMe'))) {
-      this.authService.refreshToken().subscribe(data =>
-        window.localStorage.setItem('token', JSON.stringify(data))
-      );
-      this.router.navigateByUrl('/home');
-    }    this.createForm();
   }
 
   register() {

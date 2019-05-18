@@ -1,6 +1,7 @@
 package backend.service;
 
 import backend.entity.Meeting;
+import backend.entity.Room;
 import backend.entity.User;
 
 import java.util.Date;
@@ -21,4 +22,6 @@ public interface MeetingService {
     List<Meeting> findAllByPotentialMember(User user);
 
     List<Meeting> findAllByOwner(User user);
+
+    List<Meeting> findAllByRoom(Room room);
     }

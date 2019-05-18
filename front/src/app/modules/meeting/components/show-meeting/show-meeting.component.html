@@ -5,15 +5,15 @@
   <h2>Owner</h2>
   <h3>{{meeting.owner.firstName}} {{meeting.owner.lastName}}</h3>
   <h2>Room</h2>
-  <h3>{{meeting.room.name}}</h3>
-  <div>
+  <p>{{meeting.room.name}}, {{meeting.room.address}}</p>
+  <div style="width: 100%;">
     <div class="inline" style="margin-left: 0px">
       <h2>Starts at</h2>
-      <h3>{{meeting.start | date: 'MMMM d, y, h:mm'}}</h3>
+      <h3>{{meeting.start | date: 'MMMM d, y, HH:mm'}}</h3>
     </div>
     <div class="inline">
       <h2>Ends at</h2>
-      <h3>{{meeting.end | date: 'MMMM d, y, h:mm'}}</h3>
+      <h3>{{meeting.end | date: 'MMMM d, y, HH:mm'}}</h3>
     </div>
   </div>
   <button mat-button (click)="showMembers()">Members</button>

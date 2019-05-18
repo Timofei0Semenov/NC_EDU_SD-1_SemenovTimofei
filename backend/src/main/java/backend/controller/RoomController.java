@@ -1,5 +1,6 @@
 package backend.controller;
 
+import backend.entity.Meeting;
 import backend.entity.Room;
 import backend.service.RoomService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,17 @@ public class RoomController {
     public ResponseEntity<Room> getRoomById(@PathVariable(name = "id") Long id) {
         Optional<Room> room = roomService.findRoomById(id);
         return room.isPresent() ? ResponseEntity.ok(room.get()) : ResponseEntity.notFound().build();
+    }
+
+    @PostMapping(value = "/checkRoom")
+    public ResponseEntity<String> checkRoom(@RequestBody Meeting newMeeting) {
+        String answer = roomService.checkRoom(newMeeting.getRoom(), newMeeting.getStart(), newMeeting.getEnd());
+        return ResponseEntity.ok(answer);
+    }
+
+    @PutMapping(value = "/updateRoom")
+    public ResponseEntity updateRoom(@RequestBody Room room) {
+        this.roomService.saveRoom(room);
+        return ResponseEntity.ok().build();
     }
 }

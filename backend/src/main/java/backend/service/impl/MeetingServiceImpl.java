@@ -1,6 +1,7 @@
 package backend.service.impl;
 
 import backend.entity.Meeting;
+import backend.entity.Room;
 import backend.entity.User;
 import backend.repository.MeetingRepository;
 import backend.service.MeetingService;
@@ -49,5 +50,10 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public List<Meeting> findAllByPotentialMember(User user) {
         return meetingRepository.findAllByPotentialMembersContains(user);
+    }
+
+    @Override
+    public List<Meeting> findAllByRoom(Room room) {
+        return meetingRepository.findAllByRoom(room);
     }
 }

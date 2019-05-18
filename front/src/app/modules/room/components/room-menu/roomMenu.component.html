@@ -1,21 +1,24 @@
-<h2 mat-dialog-title>Find your new friends</h2>
+<h2 mat-dialog-title>All rooms</h2>
 <mat-dialog-content class="mat-typography">
   <mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="oneUser">
+    <ng-container matColumnDef="oneRoom">
       <mat-header-cell *matHeaderCellDef>
-        <input matInput type="text" placeholder="Find new friend"
+        <input matInput type="text" placeholder="Find room"
                (keyup)="doFilter($event.target.value)">
       </mat-header-cell>
-      <mat-cell *matCellDef="let user">
-        {{user.firstName}} {{user.lastName}}
+      <mat-cell *matCellDef="let room">
+        {{room.name}}, {{room.address}}
       </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="button">
       <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let user" style="display: flex; justify-content: flex-end;">
-        <button mat-button (click)="addToFriend(user)">
-          <mat-icon>group_add</mat-icon>
+      <mat-cell *matCellDef="let room" style="display: flex; justify-content: flex-end;">
+        <button mat-button (click)="editRoom(room)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button (click)="deleteRoom(room)">
+          <mat-icon>delete</mat-icon>
         </button>
       </mat-cell>
     </ng-container>
@@ -25,5 +28,8 @@
   </mat-table>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
+  <button mat-button style="color: blueviolet" (click)="createRoom()">Add new room</button>
+</mat-dialog-actions>
+<mat-dialog-actions align="begin">
   <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>

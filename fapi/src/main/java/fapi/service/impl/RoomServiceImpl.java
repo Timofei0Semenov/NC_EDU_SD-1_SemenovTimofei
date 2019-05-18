@@ -1,5 +1,6 @@
 package fapi.service.impl;
 
+import fapi.models.Meeting;
 import fapi.models.Room;
 import fapi.service.RoomService;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,5 +40,17 @@ public class RoomServiceImpl implements RoomService {
     public void deleteRoom(Long id) {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.delete(backendServerUrl + "rooms/" + id);
+    }
+
+    @Override
+    public String checkRoom(Meeting meeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        return restTemplate.postForEntity(backendServerUrl + "rooms/checkRoom", meeting, String.class).getBody();
+    }
+
+    @Override
+    public void updateRoom(Room room) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(backendServerUrl + "rooms/updateRoom", room, Room.class);
     }
 }

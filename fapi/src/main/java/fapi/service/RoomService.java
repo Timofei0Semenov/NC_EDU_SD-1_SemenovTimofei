@@ -1,10 +1,10 @@
 package fapi.service;
 
+import fapi.models.Meeting;
 import fapi.models.Room;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public interface RoomService {
@@ -15,4 +15,8 @@ public interface RoomService {
     List<Room> findAll();
 
     void deleteRoom(Long id);
+
+    String checkRoom(Meeting meeting);
+
+    void updateRoom(Room room);
 }

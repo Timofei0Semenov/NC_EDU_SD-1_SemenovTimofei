@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Create new room</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formGroup" novalidate>
+    <h3>Room name</h3>
+    <mat-form-field appearance="outline" style="width: 100%">
+      <input matInput
+             placeholder="Input room name" required formControlName="nameFormControl"/>
+      <mat-error *ngIf="this.formGroup.get('nameFormControl').hasError('required')">Please, input room name</mat-error>
+    </mat-form-field>
+
+    <h3>Room address</h3>
+    <mat-form-field appearance="outline" style="width: 100%">
+      <input matInput
+             placeholder="Input room address" required formControlName="addressFormControl"/>
+      <mat-error *ngIf="this.formGroup.get('addressFormControl').hasError('required')">Please, input room address
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" cdkFocusInitial
+          (click)="saveRoom()">Create
+  </button>
+</mat-dialog-actions>

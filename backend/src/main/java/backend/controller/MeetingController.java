@@ -3,6 +3,7 @@ package backend.controller;
 import backend.entity.Meeting;
 import backend.entity.User;
 import backend.service.MeetingService;
+import backend.service.RoomService;
 import backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +22,13 @@ public class MeetingController {
 
     private UserService userService;
 
+    private RoomService roomService;
+
     @Autowired
-    public MeetingController(MeetingService meetingService, UserService userService) {
+    public MeetingController(MeetingService meetingService, UserService userService, RoomService roomService) {
         this.meetingService = meetingService;
         this.userService = userService;
+        this.roomService = roomService;
     }
 
     @GetMapping(value = "/all")
@@ -42,6 +46,9 @@ public class MeetingController {
     @PostMapping
     public ResponseEntity<Meeting> createMeeting(@RequestBody Meeting meeting) {
         if (meeting.getStart().after(meeting.getEnd())) return ResponseEntity.badRequest().build();
+        if (!this.roomService.checkRoom(meeting.getRoom(), meeting.getStart(), meeting.getEnd()).equals("Room is free special for you!♥")) {
+            return ResponseEntity.badRequest().build();
+        }
         meeting.setOwner(userService.findUserById(meeting.getOwner().getIdUser()).get());
         meetingService.saveMeeting(meeting);
         meeting.getMembers().add(meeting.getOwner());

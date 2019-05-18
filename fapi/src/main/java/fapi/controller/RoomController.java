@@ -1,5 +1,6 @@
 package fapi.controller;
 
+import fapi.models.Meeting;
 import fapi.models.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -37,5 +38,15 @@ public class RoomController {
     @DeleteMapping(value = "/{id}")
     public void deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
+    }
+
+    @PostMapping(value = "/checkRoom")
+    public ResponseEntity<String> checkRoom(@RequestBody Meeting meeting) {
+        return ResponseEntity.ok(roomService.checkRoom(meeting));
+    }
+
+    @PutMapping(value = "/updateRoom")
+    public void updateRoom(@RequestBody Room room) {
+        roomService.updateRoom(room);
     }
 }

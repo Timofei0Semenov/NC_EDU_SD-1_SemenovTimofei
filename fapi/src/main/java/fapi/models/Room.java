@@ -2,15 +2,16 @@ package fapi.models;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 public class Room {
 
     private long idRoom;
+
+    @NotNull
     private String name;
-    private String city;
-    private String street;
-    private int house;
-    private int building;
-    private int flour;
-    private int room;
+
+    @NotNull
+    private String address;
 }

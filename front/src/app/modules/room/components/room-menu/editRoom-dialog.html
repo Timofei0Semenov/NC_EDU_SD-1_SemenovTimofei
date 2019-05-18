@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Edit room</h1>
+<mat-dialog-content class="mat-typography" style="height: 25%">
+  <h2>Edit name</h2>
+  <mat-form-field appearance="fill">
+    <input matInput placeholder="room.name" [(ngModel)]="room.name">
+  </mat-form-field>
+  <h2 style="padding-top: 7px">Edit address</h2>
+  <mat-form-field appearance="fill" style="width: 100%">
+    <input matInput placeholder="room.address" [(ngModel)]="room.address">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" (click)="saveRoom()">Save</button>
+</mat-dialog-actions>

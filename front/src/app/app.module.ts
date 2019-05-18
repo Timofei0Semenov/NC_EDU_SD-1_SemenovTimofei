@@ -4,7 +4,7 @@ import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {CustomMaterialModule} from './material.module';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {AppRoutingModule} from './app-routing.module';
 import {LayoutModule} from './modules/layout/layout.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -17,13 +17,16 @@ import {
   PotentialMembersDialogComponent
 } from './modules/meeting/components/show-meeting/show-meeting.component';
 import {FriendCalendarComponent} from './modules/layout/components/friendCalendar/friend-calendar.component';
+import {CreateRoomComponent, EditRoomComponent} from './modules/room/components/room-menu/roomMenu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MembersDialogComponent,
     PotentialMembersDialogComponent,
-    NoMembersDialogComponent
+    NoMembersDialogComponent,
+    EditRoomComponent,
+    CreateRoomComponent
   ],
   imports: [
     CommonModule,
@@ -34,7 +37,8 @@ import {FriendCalendarComponent} from './modules/layout/components/friendCalenda
     LayoutModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    AuthorizationModule
+    AuthorizationModule,
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent],
   providers: [{
@@ -48,7 +52,8 @@ import {FriendCalendarComponent} from './modules/layout/components/friendCalenda
       multi: true
     }
   ],
-  entryComponents: [MembersDialogComponent, PotentialMembersDialogComponent, NoMembersDialogComponent, FriendCalendarComponent]
+  entryComponents: [MembersDialogComponent, PotentialMembersDialogComponent, NoMembersDialogComponent, FriendCalendarComponent,
+    EditRoomComponent, CreateRoomComponent]
 })
 export class AppModule {
 }
