@@ -13,6 +13,8 @@ import {MatDialog} from '@angular/material';
 import {AddNewEventComponent} from '../../../meeting/components/add-new-event/add-new-event.component';
 import {ShowMeetingComponent} from '../../../meeting/components/show-meeting/show-meeting.component';
 import {MeetingAlarmComponent} from '../../../notification/components/meetingAlarm/meetingAlarm.component';
+import {InviteFriendComponent} from '../../../user/components/invite-friend/invite-friend.component';
+import {EditMeetingComponent} from '../../../meeting/components/edit-meeting/edit-meeting.component';
 
 const colors: any = {
   red: {
@@ -53,7 +55,45 @@ export class CalendarComponent implements OnInit {
     onClick: ({event}: { event: Meeting }): void => {
       this.dialog.open(MeetingAlarmComponent, {width: '30%', data: event});
     }
-  }];
+  },
+    {
+      label: '<i class="material-icons mat-icon">group_add</i>',
+      onClick: ({event}: { event: Meeting }): void => {
+        this.dialog.open(InviteFriendComponent, {width: '40%', data: event});
+      }
+    }];
+
+  ownerActions: CalendarEventAction[] = [{
+    label: '<i class="material-icons mat-icon">add_alarm</i>',
+    onClick: ({event}: { event: Meeting }): void => {
+      this.dialog.open(MeetingAlarmComponent, {width: '30%', data: event});
+    }
+  },
+    {
+      label: '<i class="material-icons mat-icon">group_add</i>',
+      onClick: ({event}: { event: Meeting }): void => {
+        this.dialog.open(InviteFriendComponent, {width: '40%', data: event});
+      }
+    },
+    {
+      label: '<i class="material-icons mat-icon">edit</i>',
+      onClick: ({event}: { event: Meeting }): void => {
+        this.dialog.open(EditMeetingComponent, {width: '40%', data: event});
+      }
+    }];
+
+// ,
+// {
+//   label: '<i class="material-icons mat-icon">delete</i>',
+//   onClick: ({event}: { event: Meeting }): void => {
+//   const dialogRef = this.dialog.open(DeleteMeetingComponent, {data: event});
+//   dialogRef.afterClosed().subscribe(result => {
+//   if (result) {
+//     this.events.splice(this.events.indexOf(event), 1);
+//   }
+// });
+// }
+// }
 
   constructor(private authService: AuthService, private userService: UserService, private meetingsService: MeetingService,
               private router: Router, private dialog: MatDialog) {
@@ -83,6 +123,14 @@ export class CalendarComponent implements OnInit {
         this.events = this.events.concat(data.map(item => {
           return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions, colors.yellow);
         }));
+        this.events.forEach(item => {
+          if (item.owner.idUser == this.user.idUser) {
+            item.actions = this.ownerActions;
+          }
+          if (item.start < new Date()) {
+            item.actions = [];
+          }
+        });
       });
     });
   }
@@ -120,4 +168,6 @@ export class CalendarComponent implements OnInit {
     });
   }
 }
+
+
 

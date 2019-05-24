@@ -5,13 +5,13 @@ import {
   MatAutocompleteModule,
   MatBadgeModule,
   MatButtonModule,
-  MatCardModule,
+  MatCardModule, MatCheckboxModule,
   MatDialogModule,
   MatIconModule,
   MatInputModule, MatListModule,
   MatMenuModule,
   MatProgressSpinnerModule, MatSlideToggleModule, MatSnackBarModule,
-  MatTableModule,
+  MatTableModule, MatTabsModule,
   MatToolbarModule,
 } from '@angular/material';
 
@@ -44,7 +44,9 @@ import {
     MatBadgeModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    MatSelectModule
+    MatSelectModule,
+    MatTabsModule,
+    MatCheckboxModule
   ],
 })
 

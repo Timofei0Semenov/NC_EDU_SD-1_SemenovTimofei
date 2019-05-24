@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   checked = false;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
-              private authService: AuthService, private dialog: MatDialog) {
+              protected authService: AuthService, private dialog: MatDialog) {
   }
 
   createForm() {

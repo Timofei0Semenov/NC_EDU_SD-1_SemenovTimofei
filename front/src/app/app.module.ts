@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {CommonModule} from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import {NgModule} from '@angular/core';
 import {AppComponent} from './app.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
@@ -12,6 +12,7 @@ import {AuthorizationModule} from './modules/authorization/authorization.module'
 import {ApplyTokenInterceptor} from './interceptors/applyTokenInterceptor';
 import {RefreshTokenInterceptor} from './interceptors/RefreshTokenInterceptor';
 import {
+  InvitedUsersDialogComponent,
   MembersDialogComponent,
   NoMembersDialogComponent,
   PotentialMembersDialogComponent
@@ -25,6 +26,7 @@ import {CreateRoomComponent, EditRoomComponent} from './modules/room/components/
     MembersDialogComponent,
     PotentialMembersDialogComponent,
     NoMembersDialogComponent,
+    InvitedUsersDialogComponent,
     EditRoomComponent,
     CreateRoomComponent
   ],
@@ -50,9 +52,11 @@ import {CreateRoomComponent, EditRoomComponent} from './modules/room/components/
       provide: HTTP_INTERCEPTORS,
       useClass: RefreshTokenInterceptor,
       multi: true
-    }
+    },
+    DatePipe
   ],
-  entryComponents: [MembersDialogComponent, PotentialMembersDialogComponent, NoMembersDialogComponent, FriendCalendarComponent,
+  entryComponents: [MembersDialogComponent, PotentialMembersDialogComponent, NoMembersDialogComponent, InvitedUsersDialogComponent,
+    FriendCalendarComponent,
     EditRoomComponent, CreateRoomComponent]
 })
 export class AppModule {

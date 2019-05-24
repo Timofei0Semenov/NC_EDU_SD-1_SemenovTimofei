@@ -1,28 +1,49 @@
 <h2 mat-dialog-title>Find your new friends</h2>
 <mat-dialog-content class="mat-typography">
-  <mat-table [dataSource]="dataSource">
-    <ng-container matColumnDef="oneUser">
-      <mat-header-cell *matHeaderCellDef>
-        <input matInput type="text" placeholder="Find new friend"
-               (keyup)="doFilter($event.target.value)">
-      </mat-header-cell>
-      <mat-cell *matCellDef="let user">
-        {{user.firstName}} {{user.lastName}}
-      </mat-cell>
-    </ng-container>
+  <mat-tab-group>
+    <mat-tab label="Send your request">
+      <mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="oneUser">
+          <mat-header-cell *matHeaderCellDef>
+            <input matInput type="text" placeholder="Find new friend"
+                   (keyup)="doFilter($event.target.value)">
+          </mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.firstName}} {{user.lastName}}
+          </mat-cell>
+        </ng-container>
 
-    <ng-container matColumnDef="button">
-      <mat-header-cell *matHeaderCellDef></mat-header-cell>
-      <mat-cell *matCellDef="let user" style="display: flex; justify-content: flex-end;">
-        <button mat-button (click)="addToFriend(user)">
-          <mat-icon>group_add</mat-icon>
-        </button>
-      </mat-cell>
-    </ng-container>
+        <ng-container matColumnDef="button">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let user" style="display: flex; justify-content: flex-end;">
+            <button mat-button (click)="addToFriend(user)">
+              <mat-icon>group_add</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-  </mat-table>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+      </mat-table>
+    </mat-tab>
+
+    <mat-tab label="Waiting for a decision">
+      <mat-table [dataSource]="waitingDataSource">
+        <ng-container matColumnDef="oneUser">
+          <mat-header-cell *matHeaderCellDef>
+            <input matInput type="text" placeholder="Find new friend"
+                   (keyup)="doWaitingFilter($event.target.value)">
+          </mat-header-cell>
+          <mat-cell *matCellDef="let user">
+            {{user.firstName}} {{user.lastName}}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="waitingDisplayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: waitingDisplayedColumns;"></mat-row>
+      </mat-table>
+    </mat-tab>
+  </mat-tab-group>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

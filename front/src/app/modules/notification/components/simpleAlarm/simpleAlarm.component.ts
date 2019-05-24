@@ -12,6 +12,7 @@ export class SimpleAlarmComponent implements OnInit {
   text: string;
   alarmTime: Date;
   newNotification: Notification;
+  today = new Date();
 
   constructor(@Inject(MAT_DIALOG_DATA) public user: User, private notificationService: NotificationService) {
   }

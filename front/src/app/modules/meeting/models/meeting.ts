@@ -17,7 +17,7 @@ export class Meeting implements CalendarEvent {
   actions: CalendarEventAction[] = [];
   color: EventColor;
 
-  constructor(idMeeting: string, title: string, start: Date, end: Date, room: Room, owner: User, actions: CalendarEventAction[],
+  constructor(idMeeting: string, title: string, start: Date, end: Date, room: Room, owner: User, actions?: CalendarEventAction[],
               color?: EventColor) {
     this.idMeeting = idMeeting;
     this.title = title;

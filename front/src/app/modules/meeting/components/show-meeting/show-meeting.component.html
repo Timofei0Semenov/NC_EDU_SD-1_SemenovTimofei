@@ -16,9 +16,12 @@
       <h3>{{meeting.end | date: 'MMMM d, y, HH:mm'}}</h3>
     </div>
   </div>
-  <button mat-button (click)="showMembers()">Members</button>
-  <button mat-button (click)="showPotentialMembers()">Potential Members</button>
-  <button mat-button (click)="showNoMembers()">Refusing users</button>
+  <div>
+    <button mat-button (click)="showMembers()" style="color: green">Members</button>
+    <button mat-button (click)="showPotentialMembers()" style="color: darkgoldenrod">Potential Members</button>
+    <button mat-button (click)="showNoMembers()" style="color: red">Refusing users</button>
+    <button mat-button (click)="showInvitedUsers()" style="color: coral">Invited users</button>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>

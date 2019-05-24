@@ -1,0 +1,9 @@
+<mat-dialog-content class="mat-typography">
+  <h1 style="text-align: center">Delete {{meeting.title}}?</h1>
+</mat-dialog-content>
+<mat-dialog-actions align="center">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" cdkFocusInitial
+          (click)="deleteMeeting()">Delete
+  </button>
+</mat-dialog-actions>

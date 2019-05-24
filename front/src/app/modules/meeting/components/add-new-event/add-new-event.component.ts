@@ -26,10 +26,11 @@ export class AddNewEventComponent implements OnInit {
   messages: Message[] = [];
   checkingMessage = '';
   formGroup: FormGroup;
+  isInviteAll = false;
 
   constructor(public dialogRef: MatDialogRef<AddNewEventComponent>,
               private userService: UserService, private roomService: RoomService, private meetingService: MeetingService,
-              private messageService: MessageService, private formBuilder: FormBuilder, private dialog: MatDialog) {
+              private messageService: MessageService, private formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -66,7 +67,7 @@ export class AddNewEventComponent implements OnInit {
     });
   }
 
-  createMeeting(): void {
+  onClickCreate(): void {
     if (this.formGroup.invalid) {
       return;
     }
@@ -88,15 +89,25 @@ export class AddNewEventComponent implements OnInit {
 
   saveNewMeeting() {
     this.meetingService.saveMeeting(this.newMeeting).subscribe(data => {
+      this.inviteFriends(data);
+      this.dialogRef.close(data);
+    });
+  }
+
+  inviteFriends(data: any) {
+    if (this.isInviteAll) {
+      this.friends.forEach(item => {
+        this.messages.push(new Message(null, this.user, item, data, 'meeting'));
+      });
+    } else {
       this.members.forEach(item => {
           this.messages.push(new Message(null, this.user, item, data, 'meeting'));
         }
       );
-      if (this.messages.length > 0) {
-        this.messageService.saveAnyMessages(this.messages).subscribe();
-      }
-      this.dialogRef.close(data);
-    });
+    }
+    if (this.messages.length > 0) {
+      this.messageService.saveAnyMessages(this.messages).subscribe();
+    }
   }
 
   getTitleErrorMessage() {

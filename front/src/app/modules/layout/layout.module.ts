@@ -20,6 +20,9 @@ import {FriendCalendarComponent} from './components/friendCalendar/friend-calend
 import {SimpleAlarmComponent} from '../notification/components/simpleAlarm/simpleAlarm.component';
 import {MeetingAlarmComponent} from '../notification/components/meetingAlarm/meetingAlarm.component';
 import {RoomMenuComponent} from '../room/components/room-menu/roomMenu.component';
+import {InviteFriendComponent} from '../user/components/invite-friend/invite-friend.component';
+import {EditMeetingComponent} from '../meeting/components/edit-meeting/edit-meeting.component';
+import {DeleteMeetingComponent} from '../meeting/components/delete-meeting/delete-meeting.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +38,10 @@ import {RoomMenuComponent} from '../room/components/room-menu/roomMenu.component
     SimpleAlarmComponent,
     MeetingAlarmComponent,
     ContinueSessionComponent,
-    RoomMenuComponent
+    RoomMenuComponent,
+    InviteFriendComponent,
+    EditMeetingComponent,
+    DeleteMeetingComponent
   ],
   imports: [
     RouterModule,
@@ -52,7 +58,7 @@ import {RoomMenuComponent} from '../room/components/room-menu/roomMenu.component
   ],
   providers: [],
   entryComponents: [AddNewEventComponent, AddFriendComponent, ContinueSessionComponent, ShowMeetingComponent, SimpleAlarmComponent,
-    MeetingAlarmComponent, RoomMenuComponent],
+    MeetingAlarmComponent, RoomMenuComponent, InviteFriendComponent, EditMeetingComponent, DeleteMeetingComponent],
   exports: [HomeComponent, CalendarComponent]
 })
 export class LayoutModule {

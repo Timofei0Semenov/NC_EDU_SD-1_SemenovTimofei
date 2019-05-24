@@ -7,6 +7,7 @@ import {Router} from '@angular/router';
 @Injectable({providedIn: 'root'})
 export class AuthService {
   user: User;
+  errorMessage = '';
 
   constructor(private http: HttpClient, private userService: UserService, private router: Router) {
   }
@@ -45,6 +46,7 @@ export class AuthService {
       .set('username', username)
       .set('password', password)
       .set('grant_type', 'password');
+    this.errorMessage = '';
 
     this.getToken(body.toString()).subscribe(data => {
       window.localStorage.setItem('token', JSON.stringify(data));
@@ -60,6 +62,12 @@ export class AuthService {
             this.router.navigateByUrl('/home');
           }
         });
+    }, error1 => {
+      if (error1.status == '401') {
+        this.errorMessage = 'User with such login not found';
+      } else if (error1.status == '400') {
+        this.errorMessage = 'Uncorrect password!';
+      }
     });
   }
 }

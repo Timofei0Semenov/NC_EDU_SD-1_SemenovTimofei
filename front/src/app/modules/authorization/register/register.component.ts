@@ -15,6 +15,7 @@ export class RegisterComponent implements OnInit {
 
   userRegistrationGroup: FormGroup;
   user: User;
+  alreadyExist = '';
 
   constructor(private router: Router, private formBuilder: FormBuilder,
               private userService: UserService, private authService: AuthService) {
@@ -108,6 +109,7 @@ export class RegisterComponent implements OnInit {
     if (this.userRegistrationGroup.invalid) {
       return;
     }
+    this.alreadyExist = '';
     this.user = new User(null, this.userRegistrationGroup.get('firstNameFormControl').value,
       this.userRegistrationGroup.get('lastNameFormControl').value,
       this.userRegistrationGroup.get('loginFormControl').value, 'user',
@@ -117,6 +119,8 @@ export class RegisterComponent implements OnInit {
     this.userService.createUser(this.user).subscribe(login => {
       this.authService.login(this.userRegistrationGroup.get('loginFormControl').value,
         this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value, false);
+    }, error1 => {
+      this.alreadyExist = error1.error;
     });
   }
 

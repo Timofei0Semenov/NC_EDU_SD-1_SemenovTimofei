@@ -9,15 +9,20 @@
         <mat-error>{{getTitleErrorMessage()}}</mat-error>
       </mat-form-field>
     </div>
-    <div>
-      <h3>Members</h3>
+    <div style="margin-bottom: 7px">
+      <h3 style="margin-bottom: 0px">Members</h3>
       <mat-form-field>
         <mat-label>Add members</mat-label>
-        <mat-select [(ngModel)]="members" multiple [ngModelOptions]="{standalone: true}">
+        <mat-select [(ngModel)]="members" multiple [ngModelOptions]="{standalone: true}" [disabled]="isInviteAll">
           <mat-option *ngFor="let friend of friends" [value]="friend">{{friend.firstName}} {{friend.lastName}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-slide-toggle
+        class="slide-section"
+        (change)="isInviteAll = !isInviteAll">
+        Add all friends
+      </mat-slide-toggle>
     </div>
     <div>
       <div class="inline">
@@ -73,6 +78,6 @@
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
   <button mat-flat-button color="primary" cdkFocusInitial
-          (click)="createMeeting()">Create
+          (click)="onClickCreate()">Create
   </button>
 </mat-dialog-actions>

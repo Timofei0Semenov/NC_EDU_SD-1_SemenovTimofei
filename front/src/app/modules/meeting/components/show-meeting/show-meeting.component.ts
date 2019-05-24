@@ -29,6 +29,10 @@ export class ShowMeetingComponent implements OnInit {
   showNoMembers() {
     this.dialog.open(NoMembersDialogComponent, {width: '15%', data: this.meeting.idMeeting});
   }
+
+  showInvitedUsers() {
+    this.dialog.open(InvitedUsersDialogComponent, {width: '15%', data: this.meeting.idMeeting});
+  }
 }
 
 @Component({
@@ -82,6 +86,25 @@ export class NoMembersDialogComponent implements OnInit {
   ngOnInit() {
     this.userService.getUsersByNoMeeting(this.idMeeting).subscribe(data => {
       this.noMembers = data.map(item => {
+        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
+      });
+    });
+  }
+}
+
+@Component({
+  selector: 'invited-users-dialog',
+  templateUrl: 'invitedUsers-dialog.html',
+})
+export class InvitedUsersDialogComponent implements OnInit {
+  invitedUsers: User[] = [];
+
+  constructor(@Inject(MAT_DIALOG_DATA) public idMeeting: string, private userService: UserService) {
+  }
+
+  ngOnInit() {
+    this.userService.getUsersByInvitedMeeting(this.idMeeting).subscribe(data => {
+      this.invitedUsers = data.map(item => {
         return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
       });
     });

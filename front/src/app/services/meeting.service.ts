@@ -8,6 +8,7 @@ import {User} from '../modules/user/models/user';
   providedIn: 'root'
 })
 export class MeetingService {
+  
 
   constructor(private http: HttpClient) {
   }
@@ -21,7 +22,7 @@ export class MeetingService {
     return this.http.get<Meeting[]>('/api//meetings/all');
   }
 
-  deleteMeeting(meetingId: number) {
+  deleteMeeting(meetingId: string) {
     return this.http.delete<void>('/api//meetings/' + meetingId);
   }
 
@@ -55,5 +56,9 @@ export class MeetingService {
 
   addNoMember(user: User, idMeeting: string) {
     return this.http.post('api/meetings/addNoMember/' + idMeeting, user);
+  }
+
+  updateMeeting(meeting: Meeting, idMeeting: string) {
+    return this.http.put('api/meetings/updateMeeting/' + idMeeting, meeting);
   }
 }

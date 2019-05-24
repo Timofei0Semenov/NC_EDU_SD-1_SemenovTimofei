@@ -1,0 +1,71 @@
+<h2 mat-dialog-title>Edit meeting</h2>
+<mat-dialog-content class="mat-typography">
+  <form [formGroup]="formGroup" novalidate>
+    <div>
+      <h3>Title</h3>
+      <mat-form-field class="example-full-width">
+        <input matInput
+               placeholder="Change title" required formControlName="titleFormControl" [(ngModel)]="title"/>
+        <mat-error>{{getTitleErrorMessage()}}</mat-error>
+      </mat-form-field>
+    </div>
+    <div>
+      <h3 style="margin-bottom: 0">Room</h3>
+      <p style="font-style: oblique; padding: 0; margin: 0">Current room: {{meeting.room.name}},
+        {{meeting.room.address}}</p>
+      <mat-form-field>
+        <mat-label>Change room</mat-label>
+        <mat-select [(value)]="room">
+          <mat-option *ngFor="let item of allRooms" [value]="item">{{item.name}}, {{item.address}}</mat-option>
+        </mat-select>
+        <mat-hint style="color: red;">{{checkingMessage}}</mat-hint>
+      </mat-form-field>
+    </div>
+    <div>
+      <div class="inline">
+        <h3 style="margin-bottom: 0">Starts at</h3>
+        <p style="font-style: oblique; padding: 0; margin: 0">Current date: {{meeting.start | date: 'MMMM d, y,
+          HH:mm'}}</p>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="start" [ngModelOptions]="{standalone: true}"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          [time24hr]="true"
+          [minDate]="today"
+          placeholder="Change date"
+        />
+      </div>
+      <div class="inline" style="float: right">
+        <h3 style="margin-bottom: 0">Ends at</h3>
+        <p style="font-style: oblique; padding: 0; margin: 0">Current date: {{meeting.end | date: 'MMMM d, y,
+          HH:mm'}}</p>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+          [(ngModel)]="end" [ngModelOptions]="{standalone: true}"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          altFormat="F j, Y H:i"
+          [minDate]="start"
+          [time24hr]="true"
+          placeholder="Change date"
+        />
+      </div>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" cdkFocusInitial
+          (click)="onClickUpdate()">Update
+  </button>
+</mat-dialog-actions>

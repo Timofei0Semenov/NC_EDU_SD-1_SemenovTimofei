@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>Find your new friends</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-table [dataSource]="dataSource">
+
+    <ng-container matColumnDef="oneUser">
+      <mat-header-cell *matHeaderCellDef>
+        <input matInput type="text" placeholder="Find new friend"
+               (keyup)="doFilter($event.target.value)">
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user">
+        {{user.firstName}} {{user.lastName}}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="select">
+      <mat-header-cell *matHeaderCellDef style="display: flex; justify-content: flex-end;">
+        <mat-checkbox (change)="$event ? masterToggle() : null"
+                      [checked]="selection.hasValue() && isAllSelected()"
+                      [indeterminate]="selection.hasValue() && !isAllSelected()"
+                      [aria-label]="checkboxLabel()">
+        </mat-checkbox>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let user" style="display: flex; justify-content: flex-end;">
+        <mat-checkbox (click)="$event.stopPropagation()"
+                      (change)="$event ? selection.toggle(user) : null"
+                      [checked]="selection.isSelected(user)"
+                      [aria-label]="checkboxLabel(user)">
+        </mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" cdkFocusInitial
+          (click)="inviteFriends()" mat-dialog-close="true">Invite
+  </button>
+</mat-dialog-actions>

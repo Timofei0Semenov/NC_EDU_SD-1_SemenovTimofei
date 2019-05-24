@@ -24,8 +24,8 @@ export class UserService {
     return this.http.delete<void>('/api/users/' + userId);
   }
 
-  createUser(user: User): Observable<User> {
-    return this.http.post<User>('/api/users/', user);
+  createUser(user: User): Observable<string> {
+    return this.http.post<string>('/api/users/', user);
   }
 
   getUserById(id: number): Observable<User> {
@@ -50,6 +50,10 @@ export class UserService {
     return this.http.get<User[]>('/api/users/byNoMeeting/' + idMeeting);
   }
 
+  getUsersByInvitedMeeting(idMeeting: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/byInvitedMeeting/' + idMeeting);
+  }
+
   updateUser(user: User) {
     return this.http.put('/api/users', user);
   }
@@ -64,5 +68,13 @@ export class UserService {
 
   getNewFriends(idUser: string): Observable<User[]> {
     return this.http.get<User[]>('/api/users/newFriends/' + idUser);
+  }
+
+  getFriendsForInviting(idUser: string, idMeeting: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/friendsForInviting/' + idUser + '/' + idMeeting);
+  }
+
+  getWaitingUsers(idUser: string): Observable<User[]> {
+    return this.http.get<User[]>('/api/users/waitingToFriend/' + idUser);
   }
 }

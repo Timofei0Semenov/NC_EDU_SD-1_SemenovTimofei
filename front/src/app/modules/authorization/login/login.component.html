@@ -2,6 +2,7 @@
   <mat-card class="example-card">
     <mat-card-header>
       <mat-card-title>Login</mat-card-title>
+      <p style="color: red;">{{authService.errorMessage}}</p>
     </mat-card-header>
     <mat-card-content style="margin-bottom: 0px;">
       <form class="example-form" [formGroup]="loginForm" novalidate>
