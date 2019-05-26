@@ -23,9 +23,13 @@ public interface UserService {
 
     List<User> findAllByNoMeetings(Meeting meeting);
 
+    List<User> findAllByInvitedMeetings(Meeting meeting);
+
     Optional<User> findByEmail(String email);
 
     List<User> findByFriendsContains(User user);
 
     List<User> findAllByFriendsNotContains(User user);
+
+    List<User> findAllWaitingUsers(User user);
 }

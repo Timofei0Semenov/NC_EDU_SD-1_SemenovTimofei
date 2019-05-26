@@ -8,7 +8,7 @@ import {MeetingService} from '../../../../services/meeting.service';
 import {MessageService} from '../../../../services/message.service';
 import {Message} from '../../../message/model/message';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatDialog, MatDialogRef} from '@angular/material';
+import {MatDialogRef} from '@angular/material';
 
 @Component({
   selector: 'app-add-new-event',
@@ -35,11 +35,7 @@ export class AddNewEventComponent implements OnInit {
 
   ngOnInit() {
     this.user = JSON.parse(window.localStorage.getItem('currentUser'));
-    this.userService.getUsersByFriend(this.user.idUser).subscribe(data => {
-      this.friends = data.map(item => {
-        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
-      });
-    });
+    this.userService.friendsData.subscribe(data => this.friends = data);
     this.roomService.getAllRooms().subscribe(data => {
       this.allRooms = data.map(item => {
         return new Room(item.idRoom, item.name, item.address);
@@ -76,8 +72,7 @@ export class AddNewEventComponent implements OnInit {
       this.formGroup.get('startFormControl').value,
       this.formGroup.get('endFormControl').value,
       this.formGroup.get('roomFormControl').value,
-      this.user,
-      null);
+      this.user);
     this.checkingMessage = '';
     this.roomService.checkRoom(this.newMeeting).subscribe(result => {
       this.checkingMessage = result;
@@ -90,7 +85,9 @@ export class AddNewEventComponent implements OnInit {
   saveNewMeeting() {
     this.meetingService.saveMeeting(this.newMeeting).subscribe(data => {
       this.inviteFriends(data);
-      this.dialogRef.close(data);
+      this.meetingService.addOneToMeetings(new Meeting(data.idMeeting, data.title, data.start, data.end, data.room,
+        data.owner));
+      this.dialogRef.close();
     });
   }
 

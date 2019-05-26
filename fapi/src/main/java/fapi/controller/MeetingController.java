@@ -69,4 +69,9 @@ public class MeetingController {
     public void addNoMember(@RequestBody User input, @PathVariable Long idMeeting) {
         meetingService.addNoMember(input, idMeeting);
     }
+
+    @PutMapping(value = "/updateMeeting/{idMeeting}")
+    public void updateMeeting(@RequestBody Meeting meeting, @PathVariable Long idMeeting) {
+        meetingService.updateMeeting(meeting, idMeeting);
+    }
 }

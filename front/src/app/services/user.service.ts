@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {User} from '../modules/user/models/user';
 
@@ -7,9 +7,11 @@ import {User} from '../modules/user/models/user';
   providedIn: 'root'
 })
 export class UserService {
+  friendsDataSource: BehaviorSubject<User[]> = new BehaviorSubject([]);
+  friendsData = this.friendsDataSource.asObservable();
+
   constructor(private http: HttpClient) {
   }
-
 
   getAllUsers(): Observable<User[]> {
     /*this.userService.getAllUsers().subscribe(data => {
@@ -76,5 +78,11 @@ export class UserService {
 
   getWaitingUsers(idUser: string): Observable<User[]> {
     return this.http.get<User[]>('/api/users/waitingToFriend/' + idUser);
+  }
+
+  addOneToFriends(newFriend: User) {
+    const currentData = this.friendsDataSource.value;
+    const updateData = [...currentData, newFriend];
+    this.friendsDataSource.next(updateData);
   }
 }

@@ -3,12 +3,14 @@ package fapi.service.impl;
 import fapi.models.User;
 import fapi.service.UserService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
@@ -42,9 +44,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public User saveUser(User user) {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.postForEntity(backendServerUrl + "users/", user, User.class).getBody();
+    public ResponseEntity<String> saveUser(User user) {
+        try {
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.postForEntity(backendServerUrl + "users/", user, String.class).getBody();
+            return ResponseEntity.ok().body("");
+        } catch (HttpClientErrorException exp) {
+            String response = "Invaild value";
+            if (exp.getResponseBodyAsString().contains("userLogin_UNIQUE")) {
+                response = "User with such login already exist";
+            } else if (exp.getResponseBodyAsString().contains("email")) {
+                response = "User with such email already exist";
+            }
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        }
     }
 
     @Override
@@ -77,13 +90,22 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> findAllByPotentialMeeting(Long idMeeting) {
         RestTemplate restTemplate = new RestTemplate();
         User[] response = restTemplate.getForObject(backendServerUrl + "users/byPotentialMeeting/" + idMeeting, User[].class);
-        return response == null ? Collections.emptyList() : Arrays.asList(response);    }
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
 
     @Override
     public List<User> findAllByNoMeeting(Long idMeeting) {
         RestTemplate restTemplate = new RestTemplate();
         User[] response = restTemplate.getForObject(backendServerUrl + "users/byNoMeeting/" + idMeeting, User[].class);
-        return response == null ? Collections.emptyList() : Arrays.asList(response);    }
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
+
+    @Override
+    public List<User> findAllByInvitedMeeting(Long idMeeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] response = restTemplate.getForObject(backendServerUrl + "users/byInvitedMeeting/" + idMeeting, User[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
 
     @Override
     public void updateUser(User user) {
@@ -108,6 +130,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public List<User> findByFriendsNotContains(Long id) {
         RestTemplate restTemplate = new RestTemplate();
         User[] response = restTemplate.getForObject(backendServerUrl + "users/newFriends/" + id, User[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
+
+    @Override
+    public List<User> getFriendsForInviting(Long idUser, Long idMeeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] response = restTemplate.getForObject(backendServerUrl + "users/friendsForInviting/" + idUser + "/" + idMeeting,
+                User[].class);
+        return response == null ? Collections.emptyList() : Arrays.asList(response);
+    }
+
+    @Override
+    public List<User> findAllWaitingUsers(Long idUser) {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] response = restTemplate.getForObject(backendServerUrl + "users/waitingToFriend/" + idUser, User[].class);
         return response == null ? Collections.emptyList() : Arrays.asList(response);
     }
 }

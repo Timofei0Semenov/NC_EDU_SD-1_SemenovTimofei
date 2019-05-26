@@ -4,16 +4,16 @@
     <span>{{this.user.firstName}} {{this.user.lastName}}</span>
     <app-messages></app-messages>
     <span class="example-spacer"></span>
-    <button mat-button (click)="addAlarm()">
+    <button mat-button (click)="addAlarm()" matTooltip="Create notifications">
       <mat-icon>add_alarm</mat-icon>
     </button>
     <span class="example-spacer"></span>
-    <button mat-button (click)="roomMenu()" *ngIf="this.user.role == 'admin'">
+    <button mat-button (click)="roomMenu()" *ngIf="this.user.role == 'admin'" matTooltip="Room menu">
       <mat-icon>meeting_room</mat-icon>
     </button>
     <span class="example-spacer"></span>
     <app-friends></app-friends>
-    <button mat-button (click)="addFriends()"><mat-icon>person_add</mat-icon></button>
+    <button mat-button (click)="addFriends()" matTooltip="Find new friends"><mat-icon>person_add</mat-icon></button>
     <span class="example-spacer"></span>
     <button mat-raised-button color="primary" (click)="logout()">
       <mat-icon>exit_to_app</mat-icon>

@@ -17,15 +17,13 @@ export class Meeting implements CalendarEvent {
   actions: CalendarEventAction[] = [];
   color: EventColor;
 
-  constructor(idMeeting: string, title: string, start: Date, end: Date, room: Room, owner: User, actions?: CalendarEventAction[],
-              color?: EventColor) {
+  constructor(idMeeting: string, title: string, start: Date, end: Date, room: Room, owner: User, color?: EventColor) {
     this.idMeeting = idMeeting;
     this.title = title;
     this.start = new Date(start);
     this.end = new Date(end);
     this.room = room;
     this.owner = owner;
-    this.actions = actions;
     this.color = color;
   }
 }

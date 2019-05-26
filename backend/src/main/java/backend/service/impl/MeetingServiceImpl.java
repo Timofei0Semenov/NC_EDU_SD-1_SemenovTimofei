@@ -56,4 +56,10 @@ public class MeetingServiceImpl implements MeetingService {
     public List<Meeting> findAllByRoom(Room room) {
         return meetingRepository.findAllByRoom(room);
     }
+
+    @Override
+    public void addInvitedPerson(Meeting meeting, User user) {
+        meeting.getInvitedUsers().add(user);
+        meetingRepository.save(meeting);
+    }
 }

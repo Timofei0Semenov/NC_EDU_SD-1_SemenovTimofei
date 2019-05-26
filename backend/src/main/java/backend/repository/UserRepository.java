@@ -18,6 +18,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByNoMeetingsContains(Meeting meeting);
 
+    List<User> findAllByInvitedMeetingsContains(Meeting meeting);
+
     Optional<User> findByEmail(String email);
 
     List<User> findByFriendsContains(User user);

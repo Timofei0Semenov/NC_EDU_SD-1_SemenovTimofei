@@ -80,4 +80,10 @@ public class MeetingServiceImpl implements MeetingService {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.postForEntity(backendServerUrl + "meetings/addNoMember/" + idMeeting, input, Meeting.class);
     }
+
+    @Override
+    public void updateMeeting(Meeting meeting, Long idMeeting) {
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.put(backendServerUrl + "meetings/updateMeeting/" + idMeeting, meeting, Meeting.class);
+    }
 }

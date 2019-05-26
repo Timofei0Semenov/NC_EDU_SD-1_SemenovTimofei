@@ -1,7 +1,9 @@
 package backend.controller;
 
+import backend.entity.Meeting;
 import backend.entity.Message;
 import backend.entity.User;
+import backend.service.MeetingService;
 import backend.service.MessageService;
 import backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,13 @@ public class MessageController {
 
     private UserService userService;
 
+    private MeetingService meetingService;
+
     @Autowired
-    public MessageController(MessageService messageService, UserService userService) {
+    public MessageController(MessageService messageService, UserService userService, MeetingService meetingService) {
         this.messageService = messageService;
         this.userService = userService;
+        this.meetingService = meetingService;
     }
 
     @GetMapping(value = "/all")
@@ -61,8 +66,12 @@ public class MessageController {
 
     @PostMapping(value = "/any")
     public void saveAnyMessages(@RequestBody Message[] messages) {
+        Meeting meeting = meetingService.findMeetingById(messages[0].getMeeting().getIdMeeting()).get();
+        User user;
         for (Message message : messages) {
             messageService.saveMessage(message);
+            user = userService.findUserById(message.getReceiver().getIdUser()).get();
+            meetingService.addInvitedPerson(meeting, user);
         }
     }
 }

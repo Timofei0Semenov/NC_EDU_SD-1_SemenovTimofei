@@ -1,4 +1,4 @@
-<button mat-button [matMenuTriggerFor]="notifications">
+<button mat-button [matMenuTriggerFor]="notifications" matTooltip="Your messages">
   <mat-icon *ngIf="messages.length > 0; else noneMessages;" matBadge="{{messages.length}}" matBadgeColor="warn">
     notifications
   </mat-icon>

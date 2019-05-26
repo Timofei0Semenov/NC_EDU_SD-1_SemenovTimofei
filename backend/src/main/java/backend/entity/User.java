@@ -3,6 +3,7 @@ package backend.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -70,6 +71,10 @@ public class User {
     @JsonIgnore
     @ManyToMany(mappedBy = "noMembers")
     private List<Meeting> noMeetings = new ArrayList<>();
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "invitedUsers")
+    private List<Meeting> invitedMeetings = new ArrayList<>();
 
     @JsonIgnore
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY)

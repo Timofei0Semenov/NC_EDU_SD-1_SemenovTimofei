@@ -59,7 +59,6 @@
     [weekStartsOn]="1"
     [viewDate]="viewDate"
     [events]="events"
-    [refresh]="refresh"
     [activeDayIsOpen]="activeDayIsOpen"
     (dayClicked)="dayClicked($event.day)"
     (eventClicked)="eventClicked($event)"
@@ -70,7 +69,6 @@
     [weekStartsOn]="1"
     [viewDate]="viewDate"
     [events]="events"
-    [refresh]="refresh"
     (eventClicked)="eventClicked($event)"
     (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-week-view>
@@ -78,13 +76,12 @@
     *ngSwitchCase="CalendarView.Day"
     [viewDate]="viewDate"
     [events]="events"
-    [refresh]="refresh"
     (eventClicked)="eventClicked($event)"
     (eventTimesChanged)="eventTimesChanged($event)">
   </mwl-calendar-day-view>
 </div>
 <div style="text-align: right">
-  <button mat-fab (click)="clickAdd()">
+  <button mat-fab (click)="clickAdd()" matTooltip="Create meeting">
     <mat-icon>add</mat-icon>
   </button>
 </div>

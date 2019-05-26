@@ -6,7 +6,9 @@ import backend.repository.NotificationRepository;
 import backend.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +39,9 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
+    @Transactional
     public List<Notification> findAllByAlarmOwner(User user) {
+        notificationRepository.deleteByAlarmTimeBefore(new Date());
         return notificationRepository.findAllByAlarmOwner(user);
     }
 }

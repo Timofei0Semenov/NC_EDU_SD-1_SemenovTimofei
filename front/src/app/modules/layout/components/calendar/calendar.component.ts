@@ -15,21 +15,7 @@ import {ShowMeetingComponent} from '../../../meeting/components/show-meeting/sho
 import {MeetingAlarmComponent} from '../../../notification/components/meetingAlarm/meetingAlarm.component';
 import {InviteFriendComponent} from '../../../user/components/invite-friend/invite-friend.component';
 import {EditMeetingComponent} from '../../../meeting/components/edit-meeting/edit-meeting.component';
-
-const colors: any = {
-  red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3'
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF'
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA'
-  }
-};
+import {DeleteMeetingComponent} from '../../../meeting/components/delete-meeting/delete-meeting.component';
 
 @Component({
   selector: 'app-calendar',
@@ -80,6 +66,12 @@ export class CalendarComponent implements OnInit {
       onClick: ({event}: { event: Meeting }): void => {
         this.dialog.open(EditMeetingComponent, {width: '40%', data: event});
       }
+    },
+    {
+      label: '<i class="material-icons mat-icon">delete</i>',
+      onClick: ({event}: { event: Meeting }): void => {
+        this.dialog.open(DeleteMeetingComponent, {data: event});
+      }
     }];
 
 // ,
@@ -96,7 +88,7 @@ export class CalendarComponent implements OnInit {
 // }
 
   constructor(private authService: AuthService, private userService: UserService, private meetingsService: MeetingService,
-              private router: Router, private dialog: MatDialog) {
+              private router: Router, public dialog: MatDialog) {
   }
 
   ngOnInit() {
@@ -114,25 +106,8 @@ export class CalendarComponent implements OnInit {
 
   initUser() {
     this.user = JSON.parse(window.localStorage.getItem('currentUser'));
-
-    this.meetingsService.getByMember(this.user.login).subscribe(data => {
-      this.events = data.map(item => {
-        return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions);
-      });
-      this.meetingsService.getByPotentialMember(this.user.login).subscribe(data => {
-        this.events = this.events.concat(data.map(item => {
-          return new Meeting(item.idMeeting, item.title, item.start, item.end, item.room, item.owner, this.actions, colors.yellow);
-        }));
-        this.events.forEach(item => {
-          if (item.owner.idUser == this.user.idUser) {
-            item.actions = this.ownerActions;
-          }
-          if (item.start < new Date()) {
-            item.actions = [];
-          }
-        });
-      });
-    });
+    this.meetingsService.meetingsData.subscribe(data => this.events = data);
+    this.meetingsService.initMeetings(this.user);
   }
 
   dayClicked({date, events}: { date: Date; events: Meeting[] }): void {
@@ -144,6 +119,15 @@ export class CalendarComponent implements OnInit {
       ) {
         this.activeDayIsOpen = false;
       } else {
+        events.forEach(item => {
+          if (item.start > new Date()) {
+            if (item.owner.idUser == this.user.idUser) {
+              item.actions = this.ownerActions;
+            } else {
+              item.actions = this.actions;
+            }
+          }
+        })
         this.activeDayIsOpen = true;
       }
     }
@@ -159,13 +143,7 @@ export class CalendarComponent implements OnInit {
   }
 
   clickAdd() {
-    const dialogRef = this.dialog.open(AddNewEventComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != null && result != '') {
-        this.events.push(new Meeting(result.idMeeting, result.title, result.start, result.end, result.room,
-          result.owner, this.actions));
-      }
-    });
+    this.dialog.open(AddNewEventComponent);
   }
 }
 

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/fapi/users")
@@ -34,9 +35,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<User> createUser(@RequestBody User user) {
+    public ResponseEntity<String> createUser(@RequestBody User user) {
         user.setPassword(encoder.encode(user.getPassword()));
-        return ResponseEntity.ok(userService.saveUser(user));
+        return userService.saveUser(user);
     }
 
     @GetMapping("/id/{id}")
@@ -64,6 +65,11 @@ public class UserController {
         return ResponseEntity.ok(userService.findAllByNoMeeting(idMeeting));
     }
 
+    @GetMapping(value = "/byInvitedMeeting/{idMeeting}")
+    public ResponseEntity<List<User>> getUsersByInvitedMeeting(@PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        return ResponseEntity.ok(userService.findAllByInvitedMeeting(idMeeting));
+    }
+
     @PutMapping
     public void updateUser(@RequestBody User user) {
         userService.updateUser(user);
@@ -82,5 +88,16 @@ public class UserController {
     @GetMapping(value = "/newFriends/{id}")
     public ResponseEntity<List<User>> getNotFriends(@PathVariable(name = "id") @Min(value = 1) Long idUser) {
         return ResponseEntity.ok(userService.findByFriendsNotContains(idUser));
+    }
+
+    @GetMapping(value = "/friendsForInviting/{idUser}/{idMeeting}")
+    public ResponseEntity<List<User>> getFriendsForInviting(@PathVariable(name = "idUser") @Min(value = 1) Long idUser,
+                                                            @PathVariable(name = "idMeeting") @Min(value = 1) Long idMeeting) {
+        return ResponseEntity.ok(userService.getFriendsForInviting(idUser, idMeeting));
+    }
+
+    @GetMapping(value = "/waitingToFriend/{idUser}")
+    public ResponseEntity<List<User>> getWaitingTiFriend(@PathVariable(name = "idUser") @Min(value = 1) Long idUser) {
+        return ResponseEntity.ok(userService.findAllWaitingUsers(idUser));
     }
 }

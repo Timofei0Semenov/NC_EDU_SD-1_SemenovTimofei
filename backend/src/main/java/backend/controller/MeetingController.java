@@ -10,8 +10,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Min;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 @RestController
@@ -122,15 +124,22 @@ public class MeetingController {
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping
-    public ResponseEntity<Meeting> updateMeeting(@RequestBody Meeting meeting) {
-        Optional<Meeting> updateMeet = meetingService.findMeetingById(meeting.getIdMeeting());
+    @PutMapping(value = "/updateMeeting/{idMeeting}")
+    public ResponseEntity updateMeeting(@RequestBody Meeting meeting, @PathVariable Long idMeeting) {
+        Optional<Meeting> updateMeet = meetingService.findMeetingById(idMeeting);
         if (!updateMeet.isPresent()) return ResponseEntity.notFound().build();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm", new Locale("en"));
+        String busyByMe = "This room isn't available from " + dateFormat.format(updateMeet.get().getStart()) +
+                " to " + dateFormat.format(updateMeet.get().getEnd()) + " by " + meeting.getTitle();
+        String checkAnswer = this.roomService.checkRoom(meeting.getRoom(), meeting.getStart(), meeting.getEnd());
+        if (!checkAnswer.equals("Room is free special for you!♥") && !checkAnswer.equals(busyByMe)) {
+                return ResponseEntity.badRequest().build();
+        }
         updateMeet.get().setStart(meeting.getStart());
         updateMeet.get().setEnd(meeting.getEnd());
         updateMeet.get().setTitle(meeting.getTitle());
         updateMeet.get().setRoom(meeting.getRoom());
         meetingService.saveMeeting(updateMeet.get());
-        return ResponseEntity.ok(updateMeet.get());
+        return ResponseEntity.ok().build();
     }
 }

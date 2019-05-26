@@ -38,6 +38,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         return new Notification(item.idNotification, item.text, item.alarmTime, item.delay, item.alarmOwner);
       });
       this.notifications.sort((a, b) => a.alarmTime.getTime() - b.alarmTime.getTime());
+      console.log(this.notifications);
     });
 
     if (JSON.parse(window.localStorage.getItem('rememberMe')) == null) {
@@ -55,9 +56,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
         if (this.notifications[0].alarmTime.getTime() - new Date().getTime() < this.notifications[0].delay * 60000) {
           this.snackBar.open(this.notifications[0].text, 'Thanks');
-          this.notifService.deleteNotification(this.notifications[0].idNotification).subscribe(result => {
-            this.notifications.splice(0, 1);
-          });
+          console.log(this.notifications[0].alarmTime);
+          this.notifications.splice(0, 1);
         }
       }
     });

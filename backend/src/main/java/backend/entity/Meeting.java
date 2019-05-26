@@ -42,7 +42,6 @@ public class Meeting {
     @Column(name = "end")
     private Date end;
 
-    @Basic
     @ManyToOne()
     @NotNull
     @JoinColumn(name = "owner")
@@ -54,23 +53,30 @@ public class Meeting {
     private Room room;
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "users_meetings", schema = "backend",
             joinColumns = @JoinColumn(name = "id_meeting"),
             inverseJoinColumns = @JoinColumn(name = "id_user"))
     private Set<User> members = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "potential_members", schema = "backend",
             joinColumns = @JoinColumn(name = "id_meeting"),
             inverseJoinColumns = @JoinColumn(name = "id_user"))
     private Set<User> potentialMembers = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "no_members", schema = "backend",
             joinColumns = @JoinColumn(name = "id_meeting"),
             inverseJoinColumns = @JoinColumn(name = "id_user"))
     private Set<User> noMembers = new HashSet<>();
+
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "invited_users", schema = "backend",
+            joinColumns = @JoinColumn(name = "id_meeting"),
+            inverseJoinColumns = @JoinColumn(name = "id_user"))
+    private Set<User> invitedUsers = new HashSet<>();
 }

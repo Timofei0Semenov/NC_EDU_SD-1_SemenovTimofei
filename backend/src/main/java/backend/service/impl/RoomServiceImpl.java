@@ -51,7 +51,7 @@ public class RoomServiceImpl implements RoomService {
                     (end.after(meeting.getStart()) && end.before(meeting.getEnd())) ||
                     (start.before(meeting.getStart()) && end.after(meeting.getEnd()))) {
                 return "This room isn't available from " + dateFormat.format(meeting.getStart()) +
-                        " to " + dateFormat.format(meeting.getEnd());
+                        " to " + dateFormat.format(meeting.getEnd()) + " by " + meeting.getTitle();
             }
         }
         return "Room is free special for you!♥";

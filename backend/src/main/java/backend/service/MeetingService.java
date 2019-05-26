@@ -4,7 +4,6 @@ import backend.entity.Meeting;
 import backend.entity.Room;
 import backend.entity.User;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,4 +23,6 @@ public interface MeetingService {
     List<Meeting> findAllByOwner(User user);
 
     List<Meeting> findAllByRoom(Room room);
+
+    void addInvitedPerson(Meeting meeting, User user);
     }

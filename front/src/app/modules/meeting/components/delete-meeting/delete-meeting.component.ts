@@ -21,6 +21,10 @@ export class DeleteMeetingComponent implements OnInit {
   }
 
   deleteMeeting() {
-    this.meetingService.deleteMeeting(this.meeting.idMeeting).subscribe(() => this.dialogRef.close(true));
+    this.meetingService.deleteMeeting(this.meeting.idMeeting).subscribe(() => {
+        this.meetingService.deleteOneFromMeetings(this.meeting);
+        this.dialogRef.close();
+      }
+    );
   }
 }

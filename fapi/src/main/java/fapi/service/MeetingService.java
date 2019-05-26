@@ -28,4 +28,5 @@ public interface MeetingService {
 
     void addNoMember(User input, Long idMeeting);
 
+    void updateMeeting(Meeting meeting, Long idMeeting);
 }

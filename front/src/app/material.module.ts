@@ -12,7 +12,7 @@ import {
   MatMenuModule,
   MatProgressSpinnerModule, MatSlideToggleModule, MatSnackBarModule,
   MatTableModule, MatTabsModule,
-  MatToolbarModule,
+  MatToolbarModule, MatTooltipModule,
 } from '@angular/material';
 
 @NgModule({
@@ -34,6 +34,7 @@ import {
     MatButtonModule,
     MatCardModule,
     MatInputModule,
+    MatTooltipModule,
     MatDialogModule,
     MatSnackBarModule,
     MatAutocompleteModule,

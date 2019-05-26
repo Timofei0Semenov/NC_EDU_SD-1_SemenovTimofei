@@ -40,4 +40,11 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> findAllByReceiver(User user) {
         return messageRepository.findAllByReceiver(user);
     }
+
+    @Override
+    public List<Message> findAllBySenderAndTargetEquals(User sender, String target) {
+        return messageRepository.findAllBySenderAndTargetEquals(sender, target);
+    }
+
+
 }

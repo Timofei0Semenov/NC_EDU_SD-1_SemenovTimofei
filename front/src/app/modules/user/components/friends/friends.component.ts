@@ -30,15 +30,14 @@ export class FriendsComponent implements OnInit {
       this.router.navigateByUrl('/login');
     }
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.userService.getUsersByFriend(this.user.idUser).subscribe(data => {
-      this.friends = data.map(item => {
-        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
-      });
+    this.userService.friendsData.subscribe(data => {
+      this.friends = data;
       this.filteredFriends = this.friendsControl.valueChanges.pipe(
         startWith(''),
         map(friend => friend ? this._filter(friend) : this.friends)
       );
     });
+    this.initFriends();
   }
 
   private _filter(value: string): User[] {
@@ -50,5 +49,15 @@ export class FriendsComponent implements OnInit {
     this.friendInput.nativeElement.value = '';
     this.friendsControl.setValue(null);
     this.dialog.open(FriendCalendarComponent, {width: '95%', height: '95%', data: event.option.value});
+  }
+
+  initFriends() {
+    this.userService.friendsDataSource.next([]);
+    this.userService.getUsersByFriend(this.user.idUser).subscribe(data => {
+      this.userService.friendsDataSource.next(this.userService.friendsDataSource.value.concat(data.map(item => {
+        return new User(item.idUser, item.firstName, item.lastName, item.login, item.role, item.email, item.password);
+      })));
+
+    });
   }
 }

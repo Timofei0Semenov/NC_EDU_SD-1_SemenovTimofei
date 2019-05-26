@@ -17,4 +17,6 @@ public interface MessageService {
     void deleteMessage(Long id);
 
     List<Message> findAllByReceiver(User user);
+
+    List<Message> findAllBySenderAndTargetEquals(User sender, String target);
 }
