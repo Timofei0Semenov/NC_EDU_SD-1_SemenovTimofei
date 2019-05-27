@@ -118,7 +118,7 @@ export class RegisterComponent implements OnInit {
 
     this.userService.createUser(this.user).subscribe(login => {
       this.authService.login(this.userRegistrationGroup.get('loginFormControl').value,
-        this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value, false);
+        this.userRegistrationGroup.get('passwordGroup').get('passwordFormControl').value, true);
     }, error1 => {
       this.alreadyExist = error1.error;
     });

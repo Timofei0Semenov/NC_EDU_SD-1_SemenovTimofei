@@ -1,4 +1,5 @@
-<h2 mat-dialog-title>Create new meeting</h2>
+<h2 mat-dialog-title xmlns:firstDayOfWeek="http://www.w3.org/1999/xhtml"
+    xmlns:firstDayOfWeek="http://www.w3.org/1999/xhtml">Create new meeting</h2>
 <mat-dialog-content class="mat-typography">
   <form [formGroup]="formGroup" novalidate>
     <div>
@@ -49,8 +50,7 @@
           class="form-control"
           type="text"
           mwlFlatpickr
-          [altInput]="true"
-          [convertModelValue]="true"
+          [altInput]="true" [convertModelValue]="true"
           [enableTime]="true"
           dateFormat="Y-m-dTH:i"
           altFormat="F j, Y H:i"

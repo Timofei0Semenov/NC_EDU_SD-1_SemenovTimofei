@@ -74,19 +74,6 @@ export class CalendarComponent implements OnInit {
       }
     }];
 
-// ,
-// {
-//   label: '<i class="material-icons mat-icon">delete</i>',
-//   onClick: ({event}: { event: Meeting }): void => {
-//   const dialogRef = this.dialog.open(DeleteMeetingComponent, {data: event});
-//   dialogRef.afterClosed().subscribe(result => {
-//   if (result) {
-//     this.events.splice(this.events.indexOf(event), 1);
-//   }
-// });
-// }
-// }
-
   constructor(private authService: AuthService, private userService: UserService, private meetingsService: MeetingService,
               private router: Router, public dialog: MatDialog) {
   }

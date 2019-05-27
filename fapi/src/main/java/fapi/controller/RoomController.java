@@ -4,6 +4,7 @@ import fapi.models.Meeting;
 import fapi.models.Room;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import fapi.service.RoomService;
 
@@ -31,11 +32,13 @@ public class RoomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<Room> saveRoom(@RequestBody Room room) {
         return ResponseEntity.ok(roomService.saveRoom(room));
     }
 
     @DeleteMapping(value = "/{id}")
+    @PreAuthorize("hasRole('admin')")
     public void deleteRoom(@PathVariable Long id) {
         roomService.deleteRoom(id);
     }
@@ -46,6 +49,7 @@ public class RoomController {
     }
 
     @PutMapping(value = "/updateRoom")
+    @PreAuthorize("hasRole('admin')")
     public void updateRoom(@RequestBody Room room) {
         roomService.updateRoom(room);
     }

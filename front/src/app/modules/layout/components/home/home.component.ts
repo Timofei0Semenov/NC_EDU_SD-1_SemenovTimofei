@@ -38,7 +38,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         return new Notification(item.idNotification, item.text, item.alarmTime, item.delay, item.alarmOwner);
       });
       this.notifications.sort((a, b) => a.alarmTime.getTime() - b.alarmTime.getTime());
-      console.log(this.notifications);
     });
 
     if (JSON.parse(window.localStorage.getItem('rememberMe')) == null) {
